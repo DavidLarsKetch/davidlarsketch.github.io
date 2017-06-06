@@ -72,7 +72,3 @@ p {background: -webkit-linear-gradient(left, rgba(0,0,0,.6), rgba(0,0,0,0)); /* 
   color: #E34234;
   float: right;
 }
-
-caption {
-  text-align: right !important;
-}
