@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+}
+
+header {
+  border-bottom: 1px solid;
+  min-height: 10vh;
+  max-height: 15vh;
+}
+.container {
+  display: block;
+  margin: auto;
+  width: 90vw;
+}
