@@ -83,6 +83,38 @@ section {
   padding-right: 2vw;
 }
 
+.project-img {
+  background: rgba(211, 211, 211, .5);
+  border: 1px solid;
+  display: block;
+  height: 225px;
+  margin: 12.5px auto 0 auto;
+  width: 225px;
+}
+
+.project-item {
+  background: rgba(52, 227, 129, .3);
+  display: inline-block;
+  height: 20vw;
+  margin: 2vw;
+  max-height: 30vh;
+  min-height: 300px;
+  min-width: 250px;
+  width: 20vw;
+}
+
+.project-title {
+  display: block;
+  margin: 12.5px 0 0 0;
+  text-align: center;
+}
+
+.project-wrapper {
+  display: block;
+  margin: auto;
+  width: 73vw;
+}
+
 .resume-item {
   border-bottom: 1px solid rgba(4, 150, 68, 1);
 }
