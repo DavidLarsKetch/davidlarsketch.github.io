@@ -1,14 +1,97 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+  outline: 0;
+  text-decoration: none;
+}
+
+a:active {
+  color: inherit;
+}
+a:visited {
+  color: inherit;
+}
+
+article p {
+  margin: 0 0 2vh 2vw;
+}
+
+h1 {
+  margin-top: 2vh;
+}
+
+h3 {
+  margin: 2vh 1vh 1vh 1vh;
 }
 
 header {
+  background: rgba(227, 66, 52, 1);
   border-bottom: 1px solid;
-  min-height: 10vh;
-  max-height: 15vh;
+  max-height: 7vh;
+  min-height: 50px;
 }
+
+footer {
+  background: rgba(227, 66, 52, 1);
+  bottom: 0px;
+  display: block;
+  position: absolute;
+  width: 100%;
+}
+
+section {
+  background: rgba(52, 227, 129, .3);
+  margin-top: 2vh;
+  padding: 1vw;
+}
+
 .container {
   display: block;
   margin: auto;
   width: 90vw;
+}
+
+.contact-item {
+  background: rgba(255, 98, 84, 1);
+  margin: 5vh auto;
+  padding: 1vh;
+  text-align: center;
+  width: 50%;
+}
+
+.footer-title {
+  font-size: 1rem;
+}
+
+.header {
+  font-size: 2rem;
+}
+
+.nav-links {
+  float: right;
+  font-size: 1.5rem;
+  line-height: 50px;
+  padding-right: 2vw;
+}
+
+.resume-item {
+  border-bottom: 1px solid rgba(4, 150, 68, 1);
+}
+
+.section-heading {
+  border-bottom: 2px solid #FF6254;
+}
+
+.title {
+  line-height: 50px;
+  padding-left: 2vw;
 }
