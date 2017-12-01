@@ -25,6 +25,13 @@ article p {
   margin: 0 0 2vh 2vw;
 }
 
+footer {
+  background: rgba(227, 66, 52, 1);
+  border-top: 1px solid white;
+  display: block;
+  width: 100%;
+}
+
 h1 {
   margin-top: 2vh;
 }
@@ -40,12 +47,7 @@ header {
   min-height: 50px;
 }
 
-footer {
-  background: rgba(227, 66, 52, 1);
-  bottom: 0px;
-  display: block;
-  position: absolute;
-  width: 100%;
+  height: 50px;
 }
 
 section {
