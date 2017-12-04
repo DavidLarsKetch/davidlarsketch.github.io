@@ -5,10 +5,7 @@
 }
 
 html, body {
-  background: rgba(91, 102, 112, 1);
-  color: rgb(232, 232, 232);
   font-family: 'Noto Sans', Arial, sans-serif;
-  /*height: 100%;*/
 }
 
 a {
@@ -30,7 +27,6 @@ article p {
 
 footer {
   background: rgba(227, 66, 52, 1);
-  border-top: 1px solid white;
   display: block;
   width: 100%;
 }
@@ -45,7 +41,6 @@ h3 {
 
 header {
   background: rgba(227, 66, 52, 1);
-  border-bottom: 1px solid;
   height: 50px;
 }
 
@@ -85,7 +80,7 @@ section {
 }
 
 .blog-title {
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid black;
   padding-bottom: 1vh;
 }
 
