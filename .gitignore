@@ -2,3 +2,6 @@ guide.md
 template.html
 quote-machine-screenshot.jpg
 chingu-voyage-1-screenshot.jpg
+node_modules/
+package-lock.json
+stylesheets/
