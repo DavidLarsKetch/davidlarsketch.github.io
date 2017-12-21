@@ -18,6 +18,7 @@ a {
 a:active {
   color: inherit;
 }
+
 a:visited {
   color: inherit;
 }
@@ -32,10 +33,6 @@ footer {
   width: 100%;
 }
 
-h1 {
-  margin-top: 2vh;
-}
-
 h3 {
   margin: 2vh 1vh 1vh 1vh;
 }
@@ -45,9 +42,15 @@ header {
   height: 50px;
 }
 
+nav {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
 section {
   background: rgba(52, 227, 129, .3);
-  margin-top: 2vh;
+  margin: 2vh 0;
   padding: 1vw;
 }
 
@@ -84,7 +87,8 @@ section {
 .container {
   display: block;
   margin: auto;
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 100px);
+  padding: 2vh 0;
   width: 90vw;
 }
 
@@ -96,16 +100,11 @@ section {
   width: 50%;
 }
 
-.footer-title {
-  font-size: 1rem;
-}
-
 .header {
   font-size: 2rem;
 }
 
 .nav-links {
-  float: right;
   font-size: 1.5rem;
   line-height: 50px;
   padding-right: 2vw;
@@ -114,33 +113,24 @@ section {
 .project-img {
   background: rgba(211, 211, 211, .5);
   border: 1px solid;
-  display: block;
   height: 225px;
-  margin: 12.5px auto 0 auto;
   width: 225px;
 }
 
 .project-item {
+  align-items: center;
   background: rgba(52, 227, 129, .3);
-  display: inline-block;
-  height: 20vw;
-  margin: 2vw;
-  max-height: 30vh;
-  min-height: 300px;
-  min-width: 250px;
-  width: 20vw;
-}
-
-.project-title {
-  display: block;
-  margin: 12.5px 0 0 0;
-  text-align: center;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  margin: 1vw;
+  padding: 1rem 2rem;
 }
 
 .project-wrapper {
-  display: block;
-  margin: auto;
-  width: 73vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .resume-item {
