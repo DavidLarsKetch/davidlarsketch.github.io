@@ -55,12 +55,10 @@ section {
 }
 
 .blog {
-  align-content: flex-start;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin-top: 3vh;
 }
 
 .blog-date {
@@ -68,15 +66,17 @@ section {
 }
 
 .blog-date, .blog-title {
-  text-align: center;
   margin-bottom: 1vh;
 }
 
 .blog-item {
   border: 1px solid black;
-  flex: 0 1 25vw;
-  margin-bottom: 3vh;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 20vw;
+  margin: 2vh 0;
   padding: 2vh;
+  min-width: 50vh;
 }
 
 .blog-title {
