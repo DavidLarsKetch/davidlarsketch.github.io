@@ -1,8 +1,7 @@
 guide.md
-template.html
-quote-machine-screenshot.jpg
-chingu-voyage-1-screenshot.jpg
+stylesheets/
 node_modules/
 package-lock.json
 stylesheets/
 .sass-cache/
+dist/
