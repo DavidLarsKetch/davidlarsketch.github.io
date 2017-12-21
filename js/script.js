@@ -14,19 +14,16 @@ const blogger = {
   },
   makeBlog: data => {
     const mainElm = document.createElement("main");
-    const blogBootstrapTitle = document.createElement("div");
     const blogTitleElm = document.createElement("h1");
     const blogTitleNode = document.createTextNode("Blog");
     const blogHolder = document.createElement("div");
 
-    blogBootstrapTitle.className = "row";
     blogHolder.id = "blogHolder";
-    blogHolder.className = "blog container";
+    blogHolder.className = "blog";
 
     data.forEach(entry => blogHolder.appendChild(blogger.makeBlogCard(entry)));
 
-    mainElm.appendChild(blogBootstrapTitle);
-    blogBootstrapTitle.appendChild(blogTitleElm);
+    mainElm.appendChild(blogTitleElm);
     blogTitleElm.appendChild(blogTitleNode);
     mainElm.appendChild(blogHolder);
 
@@ -44,7 +41,7 @@ const blogger = {
     const entryContentElm = document.createElement("span");
     const entryContentNode = document.createTextNode(obj.content);
 
-    entryCardElm.className = "col-12 col-sm-4 blog-item";
+    entryCardElm.className = "blog-item";
     entryTitleElm.className = "blog-title";
     entryDateElm.className = "blog-date";
     entryContentElm.className = "blog-text";
