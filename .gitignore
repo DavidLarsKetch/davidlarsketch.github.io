@@ -5,3 +5,4 @@ chingu-voyage-1-screenshot.jpg
 node_modules/
 package-lock.json
 stylesheets/
+.sass-cache/

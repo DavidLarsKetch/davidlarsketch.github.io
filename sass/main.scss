@@ -158,17 +158,3 @@ section {
   line-height: 50px;
   padding-left: 2vw;
 }
-
-/*Classes for satisfying requirements, but should not be kept*/
-
-.background-font a:hover {
-  background: cyan;
-}
-
-.color-font a:hover {
-  color: magenta;
-}
-
-.growing a:active {
-  margin: 0 5px;
-}
