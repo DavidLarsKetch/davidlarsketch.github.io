@@ -1,4 +1,3 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
 const storage = require("./storage");
@@ -60,7 +59,7 @@ const blogger = () => {
       blogContainer.appendChild(makeBlog(blogData.entries));
       storage.save("blogData", blogData);
     });
-    loader.open("GET", "json/blog.json");
+    loader.open("GET", "../json/blog.json");
     loader.send();
   } else {
     blogContainer.appendChild(makeBlog(blogData.entries));
@@ -69,26 +68,3 @@ const blogger = () => {
 };
 
 module.exports = blogger;
-
-},{"./storage":3}],2:[function(require,module,exports){
-"use strict";
-
-const blogger = require("./blogger");
-
-blogger();
-
-},{"./blogger":1}],3:[function(require,module,exports){
-"use strict";
-
-module.exports.retrieve = key => {
-  let data = localStorage.getItem(key);
-  data = JSON.parse(data);
-  return data;
-};
-
-module.exports.save = (key, value) => {
-  value = JSON.stringify(value);
-  localStorage.setItem(key, value);
-};
-
-},{}]},{},[2]);
