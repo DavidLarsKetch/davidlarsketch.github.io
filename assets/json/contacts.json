@@ -1,0 +1,20 @@
+{
+  "contacts": [
+    {
+      "title": "Github",
+      "address": "https://www.github.com/DavidLarsKetch"
+    },
+    {
+      "title": "LinkedIn",
+      "address": "https://www.linkedin.com/in/david-lars-ketch-b915aa125/"
+    },
+    {
+      "title": "Twitter",
+      "address": "https://www.twitter.com/davidlarsketch"
+    },
+    {
+      "title": "Telegram",
+      "address": ""
+    }
+  ]
+}
