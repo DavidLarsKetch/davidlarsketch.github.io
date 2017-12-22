@@ -110,24 +110,33 @@ section {
   padding-right: 2vw;
 }
 
+.projects-column {
+  display: flex;
+  flex: 0 1 50%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.projects-column h3 {
+  display: block;
+  text-align: center;
+}
 .project-img {
   background: rgba(211, 211, 211, .5);
   border: 1px solid;
-  height: 225px;
-  width: 225px;
+  height: 300px;
 }
 
 .project-item {
   align-items: center;
   background: rgba(52, 227, 129, .3);
   display: flex;
-  flex: 0 1 auto;
   flex-direction: column;
-  margin: 1vw;
+  margin: 1vw auto;
   padding: 1rem 2rem;
 }
 
-.project-wrapper {
+.projects-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
