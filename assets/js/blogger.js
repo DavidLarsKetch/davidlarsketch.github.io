@@ -55,11 +55,11 @@ const blogger = () => {
     const loader = new XMLHttpRequest();
 
     loader.addEventListener("load", function() {
-      let blogData = JSON.parse(loader.responseText);
+      blogData = JSON.parse(loader.responseText);
       blogContainer.appendChild(makeBlog(blogData.entries));
       storage.save("blogData", blogData);
     });
-    loader.open("GET", "../json/blog.json");
+    loader.open("GET", "./assets/json/blog.json");
     loader.send();
   } else {
     blogContainer.appendChild(makeBlog(blogData.entries));
