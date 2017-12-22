@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     jshint: {
       files: ["assets/js/**/*.js"],
       options: {
-        predef: ["document", "console"],
+        predef: ["document", "console", "$", "alert"],
         esnext: true,
         globalstrict: true,
         globals: {},
@@ -16,7 +16,8 @@ module.exports = function(grunt) {
     sass: {
       dist: {
         files: {
-          "assets/stylesheets/main.css": "assets/sass/main.scss"
+          "assets/stylesheets/noBgImg.css": "assets/sass/noBgImg.scss",
+          "assets/stylesheets/bgImg.css": "assets/sass/bgImg.scss"
         }
       }
     },

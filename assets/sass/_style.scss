@@ -6,6 +6,8 @@
 }
 
 html, body {
+  background-image: $bg-img;
+  background-size: auto;
   font-family: 'Noto Sans', Arial, sans-serif;
 }
 
@@ -28,7 +30,7 @@ article p {
 }
 
 footer {
-  background: rgba(227, 66, 52, 1);
+  background: $base-color;
   display: block;
   width: 100%;
 }
@@ -38,7 +40,7 @@ h3 {
 }
 
 header {
-  background: rgba(227, 66, 52, 1);
+  background: $base-color;
   height: 50px;
 }
 
@@ -49,7 +51,7 @@ nav {
 }
 
 section {
-  background: rgba(52, 227, 129, .3);
+  background: $section-bg;
   margin: 2vh 0;
   padding: 1vw;
 }
@@ -70,7 +72,7 @@ section {
 }
 
 .blog-item {
-  border: 1px solid black;
+  border: 1px solid $blog-item-color;
   display: flex;
   flex-direction: column;
   flex: 0 1 20vw;
@@ -80,7 +82,7 @@ section {
 }
 
 .blog-title {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $blog-item-color;
   padding-bottom: 1vh;
 }
 
@@ -93,7 +95,7 @@ section {
 }
 
 .contact-item {
-  background: rgba(255, 98, 84, 1);
+  background: $base-color;
   margin: 5vh auto;
   padding: 1vh;
   text-align: center;
@@ -122,14 +124,14 @@ section {
   text-align: center;
 }
 .project-img {
-  background: rgba(211, 211, 211, .5);
+  background: rgb(211, 211, 211);
   border: 1px solid;
   height: 300px;
 }
 
 .project-item {
   align-items: center;
-  background: rgba(52, 227, 129, .3);
+  background: $complement-light;
   display: flex;
   flex-direction: column;
   margin: 1vw auto;
@@ -143,11 +145,11 @@ section {
 }
 
 .resume-item {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $color;
 }
 
 .section-heading {
-  border-bottom: 2px solid #FF6254;
+  border-bottom: 2px solid $analog-light;
 }
 
 .title {
