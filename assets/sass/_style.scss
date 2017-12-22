@@ -36,7 +36,7 @@ footer {
 }
 
 h3 {
-  margin: 2vh 1vh 1vh 1vh;
+  margin: $common-margin;
 }
 
 header {
@@ -51,8 +51,7 @@ nav {
 }
 
 section {
-  background: $section-bg;
-  margin: 2vh 0;
+  margin: $common-margin 0;
   padding: 1vw;
 }
 
@@ -68,7 +67,7 @@ section {
 }
 
 .blog-date, .blog-title {
-  margin-bottom: 1vh;
+  margin-bottom: $common-margin;
 }
 
 .blog-item {
@@ -76,7 +75,7 @@ section {
   display: flex;
   flex-direction: column;
   flex: 0 1 20vw;
-  margin: 2vh 0;
+  margin: $common-margin;
   padding: 2vh;
   min-width: 50vh;
 }
@@ -131,10 +130,9 @@ section {
 
 .project-item {
   align-items: center;
-  background: $complement-light;
   display: flex;
   flex-direction: column;
-  margin: 1vw auto;
+  margin: $common-margin auto;
   padding: 1rem 2rem;
 }
 

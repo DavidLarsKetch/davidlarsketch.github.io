@@ -28,7 +28,7 @@ footer {
   width: 100%; }
 
 h3 {
-  margin: 2vh 1vh 1vh 1vh; }
+  margin: 1vh; }
 
 header {
   background: #e34234;
@@ -40,8 +40,7 @@ nav {
   justify-content: space-between; }
 
 section {
-  background: #34E381;
-  margin: 2vh 0;
+  margin: 1vh 0;
   padding: 1vw; }
 
 .blog {
@@ -61,7 +60,7 @@ section {
   display: flex;
   flex-direction: column;
   flex: 0 1 20vw;
-  margin: 2vh 0;
+  margin: 1vh;
   padding: 2vh;
   min-width: 50vh; }
 
@@ -108,10 +107,9 @@ section {
 
 .project-item {
   align-items: center;
-  background: #34E381;
   display: flex;
   flex-direction: column;
-  margin: 1vw auto;
+  margin: 1vh auto;
   padding: 1rem 2rem; }
 
 .projects-wrapper {
