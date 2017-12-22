@@ -1,34 +1,16 @@
 {
   "projects": [
     {
-      "title": "Chingu Voyage-2 Chrome App",
-      "img": ,
-      "link": ,
-      "category": ,
+      "title": "Chingu Voyage-2 Chrome App 'Blueberry Dash'",
+      "img": "./assets/imgs/chingu-2-screenshot.png",
+      "link": "#",
+      "category": "collab"
     },
     {
       "title": "Random Quote Machine",
-      "img": ,
-      "link": ,
-      "category": ,
-    },
-    {
-      "title": ,
-      "img": ,
-      "link": ,
-      "category": ,
-    },
-    {
-      "title": ,
-      "img": ,
-      "link": ,
-      "category": ,
-    },
-    {
-      "title": ,
-      "img": ,
-      "link": ,
-      "category": ,
+      "img": "./assets/imgs/quote-machine-screenshot.jpg",
+      "link": "#",
+      "category": "solo"
     }
   ]
 }
