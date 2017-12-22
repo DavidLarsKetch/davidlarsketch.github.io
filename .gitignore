@@ -1,7 +1,4 @@
 guide.md
-stylesheets/
 node_modules/
 package-lock.json
-stylesheets/
 .sass-cache/
-dist/
