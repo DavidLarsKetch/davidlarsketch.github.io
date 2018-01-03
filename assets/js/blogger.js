@@ -50,8 +50,8 @@ const makeBlogCard = obj => {
 };
 
 const blogger = () => {
-  blogData = storage.retrieve("blogData");
-  if (!blogData) {
+//  blogData = storage.retrieve("blogData");
+//  if (!blogData) {
     const loader = new XMLHttpRequest();
 
     loader.addEventListener("load", function() {
@@ -61,9 +61,9 @@ const blogger = () => {
     });
     loader.open("GET", "./assets/json/blog.json");
     loader.send();
-  } else {
-    blogContainer.appendChild(makeBlog(blogData.entries));
-  }
+//  } else {
+//    blogContainer.appendChild(makeBlog(blogData.entries));
+//  }
 
 };
 
