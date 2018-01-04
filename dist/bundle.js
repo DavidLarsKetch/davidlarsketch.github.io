@@ -51,8 +51,11 @@ const makeBlogCard = obj => {
 };
 
 const blogger = () => {
-  blogData = storage.retrieve("blogData");
-  if (!blogData) {
+  //Commented out code - remove comments to enable drawing from localStorage &
+  //not being able to update.
+  //Needs function for comparing localStorage & JSON data.
+//  blogData = storage.retrieve("blogData");
+//  if (!blogData) {
     const loader = new XMLHttpRequest();
 
     loader.addEventListener("load", function() {
@@ -62,9 +65,9 @@ const blogger = () => {
     });
     loader.open("GET", "./assets/json/blog.json");
     loader.send();
-  } else {
-    blogContainer.appendChild(makeBlog(blogData.entries));
-  }
+//  } else {
+//    blogContainer.appendChild(makeBlog(blogData.entries));
+//  }
 
 };
 
@@ -73,16 +76,136 @@ module.exports = blogger;
 },{"./storage":7}],2:[function(require,module,exports){
 "use strict";
 
-},{}],3:[function(require,module,exports){
-arguments[4][2][0].apply(exports,arguments)
-},{"dup":2}],4:[function(require,module,exports){
-arguments[4][2][0].apply(exports,arguments)
-},{"dup":2}],5:[function(require,module,exports){
+const storage = require('./storage');
+
+let contactData = {};
+const contactContainer = document.getElementById("contactContainer");
+
+const makeContacts = data => {
+  const structure = data.structure;
+  // Experimental  -  loop through JSON data.structure to make the DOM elements
+  // instead of hard-coding each. This could be applied to each page of the site
+
+  // const test = (obj) => {
+  //   for (let prop in obj) {
+  //     console.log(obj[prop]);
+  //     for (let key in obj[prop]) {
+  //       console.log(obj[prop][key]);
+  //     }
+  //   }
+  // };
+  // test(structure);
+  const mainElm = document.createElement(structure.toContainer.elm);
+  const contactTitleElm = document.createElement(structure.pageTitle.elm);
+  const contactTitleNode = document.createTextNode(structure.pageTitle.content);
+  const contactHolder = document.createElement(structure.holder.elm);
+
+  contactHolder.id = structure.holder.id;
+  contactHolder.className = structure.holder.class;
+  data.items.forEach(entry => contactHolder.appendChild(makeContactItem(entry)));
+
+  mainElm.appendChild(contactTitleElm);
+  contactTitleElm.appendChild(contactTitleNode);
+  mainElm.appendChild(contactHolder);
+
+  return mainElm;
+};
+
+const makeContactItem = obj => {
+  const contactDivElm = document.createElement("div");
+  contactDivElm.className = `contact-item ${obj.title.toLowerCase()}`;
+
+  const contactLinkElm = document.createElement("a");
+  contactLinkElm.href = obj.address;
+  contactLinkElm.target = "_blank";
+
+  const contactTitle = document.createElement("h3");
+  const contactTitleNode = document.createTextNode(obj.title);
+
+  contactDivElm.appendChild(contactLinkElm);
+  contactLinkElm.appendChild(contactTitle);
+  contactTitle.appendChild(contactTitleNode);
+
+  return contactDivElm;
+};
+
+const contacter = () => {
+  const loader = new XMLHttpRequest();
+
+  loader.addEventListener("load", function() {
+    contactData = JSON.parse(loader.responseText);
+    contactContainer.appendChild(makeContacts(contactData.contacts));
+    storage.save("contactData", contactData);
+  });
+  loader.open("GET", "./assets/json/contacts.json");
+  loader.send();
+};
+
+module.exports = contacter;
+
+},{"./storage":7}],3:[function(require,module,exports){
+"use strict";
+
+const footer = () => {
+  const here = document.getElementById("footer");
+  const divElm = document.createElement("div");
+  divElm.className = "footer title";
+  const footerText = document.createTextNode("\u00a9 2017 \u00a0-\u00a0 DLK");
+  here.appendChild(divElm);
+  divElm.appendChild(footerText);
+};
+
+module.exports = footer;
+
+},{}],4:[function(require,module,exports){
+"use strict";
+
+const pages = ["Resume", "Projects", "Blog", "Contact"];
+
+const header = () => {
+  const here = document.getElementById("header");
+  const nav = document.createElement("nav");
+
+  const titleElm = document.createElement("span");
+  const titleLink = document.createElement("a");
+  titleLink.className = "header title";
+  titleLink.href = document.title === "David Lars Ketch" ? "#top" : "index.html";
+  const titleText = document.createTextNode("DLK");
+
+  const navLinks = document.createElement("span");
+  pages.forEach(page => navLinks.appendChild(makePageNav(page)));
+
+  here.appendChild(nav);
+  nav.appendChild(titleElm);
+  titleElm.appendChild(titleLink);
+  titleLink.appendChild(titleText);
+  nav.appendChild(navLinks);
+};
+
+const makePageNav = item => {
+  let spanElm = document.createElement("span");
+  let linkElm = document.createElement("a");
+  let textNode;
+
+  spanElm.className = "nav-links";
+  linkElm.href = document.title === item ? "#top" : `${item.toLowerCase()}.html`;
+  textNode = document.createTextNode(item);
+
+  linkElm.appendChild(textNode);
+  spanElm.appendChild(linkElm);
+
+  return spanElm;
+};
+
+module.exports = header;
+
+},{}],5:[function(require,module,exports){
 "use strict";
 
 const footer = require("./footer");
+footer();
 const header = require("./header");
-
+header();
 
 const pages = {
   blog: require("./blogger"),
