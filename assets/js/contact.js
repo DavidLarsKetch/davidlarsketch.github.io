@@ -25,7 +25,7 @@ const makeContacts = data => {
   const contactHolder = document.createElement(structure.holder.elm);
 
   contactHolder.id = structure.holder.id;
-  contactHolder.className = structure.holder.class;
+  contactHolder.className = structure.holder.className;
   data.items.forEach(entry => contactHolder.appendChild(makeContactItem(entry)));
 
   mainElm.appendChild(contactTitleElm);
