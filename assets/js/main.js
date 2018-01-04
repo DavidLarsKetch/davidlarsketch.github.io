@@ -1,8 +1,9 @@
 "use strict";
 
 const footer = require("./footer");
+footer();
 const header = require("./header");
-
+header();
 
 const pages = {
   blog: require("./blogger"),
