@@ -1,20 +1,35 @@
 {
-  "contacts": [
-    {
-      "title": "Github",
-      "address": "https://www.github.com/DavidLarsKetch"
-    },
-    {
-      "title": "LinkedIn",
-      "address": "https://www.linkedin.com/in/david-lars-ketch-b915aa125/"
-    },
-    {
-      "title": "Twitter",
-      "address": "https://www.twitter.com/davidlarsketch"
-    },
-    {
-      "title": "Telegram",
-      "address": ""
+  "contacts": {
+    "items": [{
+        "title": "Github",
+        "address": "https://www.github.com/DavidLarsKetch"
+      },
+      {
+        "title": "LinkedIn",
+        "address": "https://www.linkedin.com/in/david-lars-ketch-b915aa125/"
+      },
+      {
+        "title": "Twitter",
+        "address": "https://www.twitter.com/davidlarsketch"
+      },
+      {
+        "title": "Telegram",
+        "address": "https://t.me/davidlarsketch"
+      }
+    ],
+    "structure": {
+      "toContainer": {
+        "elm": "main"
+      },
+      "pageTitle": {
+        "elm": "h1",
+        "content": "Contact"
+      },
+      "holder": {
+        "elm": "section",
+        "id": "contactsHolder",
+        "className": "contact"
+      }
     }
-  ]
+  }
 }
