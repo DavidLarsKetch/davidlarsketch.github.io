@@ -50,6 +50,9 @@ const makeBlogCard = obj => {
 };
 
 const blogger = () => {
+  //Commented out code - remove comments to enable drawing from localStorage &
+  //not being able to update.
+  //Needs function for comparing localStorage & JSON data.
 //  blogData = storage.retrieve("blogData");
 //  if (!blogData) {
     const loader = new XMLHttpRequest();
