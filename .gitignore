@@ -1,6 +1,7 @@
 node_modules/
 package-lock.json
 .sass-cache/
+*.css.map
 # Swap
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]
