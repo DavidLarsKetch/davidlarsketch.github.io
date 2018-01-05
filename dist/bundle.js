@@ -14,7 +14,7 @@ const makeBlog = data => {
 
   blogHolder.id = "blogHolder";
   blogHolder.className = "blog";
-  data.forEach(entry => blogHolder.appendChild(makeBlogCard(entry)));
+  data.reverse().forEach(entry => blogHolder.appendChild(makeBlogCard(entry)));
 
   mainElm.appendChild(blogTitleElm);
   blogTitleElm.appendChild(blogTitleNode);
