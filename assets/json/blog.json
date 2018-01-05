@@ -17,5 +17,11 @@
     "content": "Today, I was warned against rabbit trails. I understood where the concern arose, but still couldn't quite square it. Undoubtedly, curiosity can distract. That doesn't seem to be entirely the case in the context he brought up this point - a learning environment, namely. Normally, we think of curiosity as inspiring learning, as the vehicle driving us to get our hands dirty or engage our minds to expand around new concepts. I wonder, though, if this puts the cart before the horse, not to abuse a metaphor too much. Curiosity, we normally suppose, is the genesis, beginning of learning, whereas I am interested in teasing out the thought if curiosity is, in fact, the end goal. This is in part because curiosity is never complete - it loops out in ever-widening ellipses. More over, we are energized and excited by the unending whys. The five-year-old keeps asking 'why' because she has discovered how invigorating it is to keep asking. Being curious is the desirable end state.",
     "tags": ["learning", "terminology", "what am i doing"]
 
+  },
+  {
+    "title": "Entry 4",
+    "date": "4 January 2018",
+    "content": "Idea: a site collecting information on the technology underlying any individual cryptoasset.  Problem: I have not found any single source that helpfully describes how diverse cryptoassets function. What I mean looks to the following problem. In order for a developer, a business, anyone in general to meaningfully compare & contrast the virtues of, say, Bitcoin & Ripple or their underlying assets, one would need to have a general knowledge of blockchain, proof-of-work, etc. Otherwise, one relies on an expert. Especially these days, where proponents of cryptoassets seem more focused on holy wars, one ought to be skeptical of even the most basic definitions being provided. First step: From what I can tell, terminologies between cryptoassets are fairly standard. They draw from the same pool of reserach into cryptography, protocols, and the like. Undoubtedly, they like to call this or that some esoteric proper noun, but that is fluff on top of more fundamental similarities. Confirming this hyothesis would prove the viability of this idea.",
+    "tags": ["ideas", "cryptoassets", "bitcoin", "ripple", "blockchain", "proof-of-work"]
   }
 ]}
