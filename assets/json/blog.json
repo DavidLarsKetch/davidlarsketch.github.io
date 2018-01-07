@@ -23,5 +23,11 @@
     "date": "4 January 2018",
     "content": "Idea: a site collecting information on the technology underlying any individual cryptoasset.  Problem: I have not found any single source that helpfully describes how diverse cryptoassets function. What I mean looks to the following problem. In order for a developer, a business, anyone in general to meaningfully compare & contrast the virtues of, say, Bitcoin & Ripple or their underlying assets, one would need to have a general knowledge of blockchain, proof-of-work, etc. Otherwise, one relies on an expert. Especially these days, where proponents of cryptoassets seem more focused on holy wars, one ought to be skeptical of even the most basic definitions being provided. First step: From what I can tell, terminologies between cryptoassets are fairly standard. They draw from the same pool of reserach into cryptography, protocols, and the like. Undoubtedly, they like to call this or that some esoteric proper noun, but that is fluff on top of more fundamental similarities. Confirming this hyothesis would prove the viability of this idea.",
     "tags": ["ideas", "cryptoassets", "bitcoin", "ripple", "blockchain", "proof-of-work"]
+  },
+  {
+    "title": "Entry 5",
+    "date": "6 January 2018",
+    "content": "One of the reasons I am writing this blog is to also think about and then build from the ground up tools for automating as much as possible - besides the writing of course! Now, there are many tools for blogging out there. Wordpress sites are a great resource, building out a whole UI for people. So, I am reinventing the wheel, but for precise purpose of learning how to make wheels. Fortunately, there are many, many tools available for modern Javascript developers that automate diverse processes. Unfortunately - and I am saying nothing new here - you can't learn much if it's all done for you. Thus, for this blog, it's all starting with a simple shell script that opens a new file while copying over a template so that I can get straight to writing. It's nothing fancy, but I already learned a lot about shell scripting in the process - so progress!",
+    "tags": ["what am i doing", "blog intentions", "shell scripting", "learning"]
   }
 ]}
