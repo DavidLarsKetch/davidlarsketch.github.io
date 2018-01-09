@@ -3,7 +3,6 @@
 const $ = require('jquery');
 const fbURL = "https://davidlarsketch-8da73.firebaseio.com";
 
-
 module.exports.fbDataProcessor = data => {
   let dataToSend = [];
   let keys = Object.keys(data);
@@ -27,7 +26,7 @@ module.exports.getBlog = () => {
 module.exports.getContacts = () => {
   return new Promise(function(resolve, reject) {
     $.ajax({
-      url: `${fbURL}/contacts.json`
+      url: `${fbURL}/contacts/items.json`
     })
     .done(data => resolve(data))
     .fail(err => reject(err));

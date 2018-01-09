@@ -1,12 +1,12 @@
 "use strict";
 
+const $ = require("jquery");
+const xhr = require("./xhr");
 const storage = require('./storage');
 
-let contactData = {};
-const contactContainer = document.getElementById("contactContainer");
+let contactsData = [];
 
 const makeContacts = data => {
-  const structure = data.structure;
   // Experimental  -  loop through JSON data.structure to make the DOM elements
   // instead of hard-coding each. This could be applied to each page of the site
 
@@ -19,18 +19,19 @@ const makeContacts = data => {
   //   }
   // };
   // test(structure);
-  const mainElm = document.createElement(structure.toContainer.elm);
-  const contactTitleElm = document.createElement(structure.pageTitle.elm);
-  const contactTitleNode = document.createTextNode(structure.pageTitle.content);
-  const contactHolder = document.createElement(structure.holder.elm);
 
-  contactHolder.id = structure.holder.id;
-  contactHolder.className = structure.holder.className;
-  data.items.forEach(entry => contactHolder.appendChild(makeContactItem(entry)));
+  const mainElm = document.createElement("main");
+  const contactTitleElm = document.createElement("h1");
+  contactTitleElm.append("Contact");
 
-  mainElm.appendChild(contactTitleElm);
-  contactTitleElm.appendChild(contactTitleNode);
-  mainElm.appendChild(contactHolder);
+  const contactHolder = document.createElement("section");
+  contactHolder.id = "contactHolder";
+  contactHolder.className = "contact";
+
+  data.forEach(entry => contactHolder.append(makeContactItem(entry)));
+
+  mainElm.append(contactTitleElm);
+  mainElm.append(contactHolder);
 
   return mainElm;
 };
@@ -44,25 +45,22 @@ const makeContactItem = obj => {
   contactLinkElm.target = "_blank";
 
   const contactTitle = document.createElement("h3");
-  const contactTitleNode = document.createTextNode(obj.title);
+  contactTitle.append(obj.title);
 
-  contactDivElm.appendChild(contactLinkElm);
-  contactLinkElm.appendChild(contactTitle);
-  contactTitle.appendChild(contactTitleNode);
+  contactDivElm.append(contactLinkElm);
+  contactLinkElm.append(contactTitle);
 
   return contactDivElm;
 };
 
 const contacter = () => {
-  const loader = new XMLHttpRequest();
 
-  loader.addEventListener("load", function() {
-    contactData = JSON.parse(loader.responseText);
-    contactContainer.appendChild(makeContacts(contactData.contacts));
-    storage.save("contactData", contactData);
-  });
-  loader.open("GET", "./assets/json/contacts.json");
-  loader.send();
+  xhr.getContacts()
+  .then(data => {
+    contactsData = xhr.fbDataProcessor(data);
+    $("#contactContainer").append(makeContacts(contactsData));
+  })
+  .catch(err => console.log(err));
 };
 
 module.exports = contacter;
