@@ -70,13 +70,13 @@ module.exports = blogger;
 },{"./storage":7,"./xhr":8,"jquery":9}],2:[function(require,module,exports){
 "use strict";
 
+const $ = require("jquery");
+const xhr = require("./xhr");
 const storage = require('./storage');
 
-let contactData = {};
-const contactContainer = document.getElementById("contactContainer");
+let contactsData = [];
 
 const makeContacts = data => {
-  const structure = data.structure;
   // Experimental  -  loop through JSON data.structure to make the DOM elements
   // instead of hard-coding each. This could be applied to each page of the site
 
@@ -89,18 +89,19 @@ const makeContacts = data => {
   //   }
   // };
   // test(structure);
-  const mainElm = document.createElement(structure.toContainer.elm);
-  const contactTitleElm = document.createElement(structure.pageTitle.elm);
-  const contactTitleNode = document.createTextNode(structure.pageTitle.content);
-  const contactHolder = document.createElement(structure.holder.elm);
 
-  contactHolder.id = structure.holder.id;
-  contactHolder.className = structure.holder.className;
-  data.items.forEach(entry => contactHolder.appendChild(makeContactItem(entry)));
+  const mainElm = document.createElement("main");
+  const contactTitleElm = document.createElement("h1");
+  contactTitleElm.append("Contact");
 
-  mainElm.appendChild(contactTitleElm);
-  contactTitleElm.appendChild(contactTitleNode);
-  mainElm.appendChild(contactHolder);
+  const contactHolder = document.createElement("section");
+  contactHolder.id = "contactHolder";
+  contactHolder.className = "contact";
+
+  data.forEach(entry => contactHolder.append(makeContactItem(entry)));
+
+  mainElm.append(contactTitleElm);
+  mainElm.append(contactHolder);
 
   return mainElm;
 };
@@ -114,86 +115,80 @@ const makeContactItem = obj => {
   contactLinkElm.target = "_blank";
 
   const contactTitle = document.createElement("h3");
-  const contactTitleNode = document.createTextNode(obj.title);
+  contactTitle.append(obj.title);
 
-  contactDivElm.appendChild(contactLinkElm);
-  contactLinkElm.appendChild(contactTitle);
-  contactTitle.appendChild(contactTitleNode);
+  contactDivElm.append(contactLinkElm);
+  contactLinkElm.append(contactTitle);
 
   return contactDivElm;
 };
 
 const contacter = () => {
-  const loader = new XMLHttpRequest();
 
-  loader.addEventListener("load", function() {
-    contactData = JSON.parse(loader.responseText);
-    contactContainer.appendChild(makeContacts(contactData.contacts));
-    storage.save("contactData", contactData);
-  });
-  loader.open("GET", "./assets/json/contacts.json");
-  loader.send();
+  xhr.getContacts()
+  .then(data => {
+    contactsData = xhr.fbDataProcessor(data);
+    $("#contactContainer").append(makeContacts(contactsData));
+  })
+  .catch(err => console.log(err));
 };
 
 module.exports = contacter;
 
-},{"./storage":7}],3:[function(require,module,exports){
+},{"./storage":7,"./xhr":8,"jquery":9}],3:[function(require,module,exports){
 "use strict";
 
+const $ = require('jquery');
+
 const footer = () => {
-  const here = document.getElementById("footer");
   const divElm = document.createElement("div");
   divElm.className = "footer title";
-  const footerText = document.createTextNode("\u00a9 2017 \u00a0-\u00a0 DLK");
-  here.appendChild(divElm);
-  divElm.appendChild(footerText);
+  divElm.append('\u00a9 2017 \u00a0-\u00a0 DLK');
+  $("#footer").append(divElm);
 };
 
 module.exports = footer;
 
-},{}],4:[function(require,module,exports){
+},{"jquery":9}],4:[function(require,module,exports){
 "use strict";
 
+const $ = require("jquery");
 const pages = ["Resume", "Projects", "Blog", "Contact"];
 
 const header = () => {
-  const here = document.getElementById("header");
   const nav = document.createElement("nav");
 
   const titleElm = document.createElement("span");
   const titleLink = document.createElement("a");
   titleLink.className = "header title";
   titleLink.href = document.title === "David Lars Ketch" ? "#top" : "index.html";
-  const titleText = document.createTextNode("DLK");
+  titleLink.append("DLK");
 
   const navLinks = document.createElement("span");
-  pages.forEach(page => navLinks.appendChild(makePageNav(page)));
+  pages.forEach(page => navLinks.append(makePageNav(page)));
 
-  here.appendChild(nav);
-  nav.appendChild(titleElm);
-  titleElm.appendChild(titleLink);
-  titleLink.appendChild(titleText);
-  nav.appendChild(navLinks);
+  $("#header").append(nav);
+  nav.append(titleElm);
+  titleElm.append(titleLink);
+  nav.append(navLinks);
 };
 
 const makePageNav = item => {
   let spanElm = document.createElement("span");
   let linkElm = document.createElement("a");
-  let textNode;
 
   spanElm.className = "nav-links";
   linkElm.href = document.title === item ? "#top" : `${item.toLowerCase()}.html`;
-  textNode = document.createTextNode(item);
 
-  linkElm.appendChild(textNode);
-  spanElm.appendChild(linkElm);
+  linkElm.append(item);
+  spanElm.append(linkElm);
 
   return spanElm;
 };
 
 module.exports = header;
 
-},{}],5:[function(require,module,exports){
+},{"jquery":9}],5:[function(require,module,exports){
 "use strict";
 
 const footer = require("./footer");
@@ -331,7 +326,6 @@ module.exports.save = (key, value) => {
 const $ = require('jquery');
 const fbURL = "https://davidlarsketch-8da73.firebaseio.com";
 
-
 module.exports.fbDataProcessor = data => {
   let dataToSend = [];
   let keys = Object.keys(data);
@@ -355,7 +349,7 @@ module.exports.getBlog = () => {
 module.exports.getContacts = () => {
   return new Promise(function(resolve, reject) {
     $.ajax({
-      url: `${fbURL}/contacts.json`
+      url: `${fbURL}/contacts/items.json`
     })
     .done(data => resolve(data))
     .fail(err => reject(err));
