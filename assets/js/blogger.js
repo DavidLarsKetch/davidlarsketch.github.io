@@ -1,50 +1,47 @@
 "use strict";
 
+const $ = require('jquery');
 const storage = require("./storage");
+const xhr = require("./xhr");
 
-let blogData = {};
-const blogContainer = document.getElementById("blogContainer");
+let blogData;
 
 const makeBlog = data => {
   const mainElm = document.createElement("main");
   const blogTitleElm = document.createElement("h1");
-  const blogTitleNode = document.createTextNode("Blog");
-  const blogHolder = document.createElement("div");
+  blogTitleElm.append("Blog");
 
+  const blogHolder = document.createElement("div");
   blogHolder.id = "blogHolder";
   blogHolder.className = "blog";
-  data.forEach(entry => blogHolder.appendChild(makeBlogCard(entry)));
 
-  mainElm.appendChild(blogTitleElm);
-  blogTitleElm.appendChild(blogTitleNode);
-  mainElm.appendChild(blogHolder);
+  data.reverse().forEach(entry => blogHolder.append(makeBlogCard(entry)));
+
+  mainElm.append(blogTitleElm);
+  mainElm.append(blogHolder);
 
   return mainElm;
 };
 
 const makeBlogCard = obj => {
   const entryCardElm = document.createElement("div");
+  entryCardElm.className = "blog-item";
 
   const entryTitleElm = document.createElement("h4");
-  const entryTitleNode = document.createTextNode(obj.title);
+  entryTitleElm.append(obj.title);
+  entryTitleElm.className = "blog-title";
 
   const entryDateElm = document.createElement("div");
-  const entryDateNode = document.createTextNode(obj.date);
+  entryDateElm.append(obj.date);
+  entryDateElm.className = "blog-date";
 
   const entryContentElm = document.createElement("span");
-  const entryContentNode = document.createTextNode(obj.content);
-
-  entryCardElm.className = "blog-item";
-  entryTitleElm.className = "blog-title";
-  entryDateElm.className = "blog-date";
+  entryContentElm.append(obj.content);
   entryContentElm.className = "blog-text";
 
-  entryCardElm.appendChild(entryTitleElm);
-  entryTitleElm.appendChild(entryTitleNode);
-  entryCardElm.appendChild(entryDateElm);
-  entryDateElm.appendChild(entryDateNode);
-  entryCardElm.appendChild(entryContentElm);
-  entryContentElm.appendChild(entryContentNode);
+  entryCardElm.append(entryTitleElm);
+  entryCardElm.append(entryDateElm);
+  entryCardElm.append(entryContentElm);
 
   return entryCardElm;
 };
@@ -52,15 +49,12 @@ const makeBlogCard = obj => {
 const blogger = () => {
 //  blogData = storage.retrieve("blogData");
 //  if (!blogData) {
-    const loader = new XMLHttpRequest();
-
-    loader.addEventListener("load", function() {
-      blogData = JSON.parse(loader.responseText);
-      blogContainer.appendChild(makeBlog(blogData.entries));
-      storage.save("blogData", blogData);
-    });
-    loader.open("GET", "./assets/json/blog.json");
-    loader.send();
+    xhr.getBlog()
+    .then(data => {
+      blogData = xhr.fbDataProcessor(data);
+      $("#blogContainer").append(makeBlog(blogData));
+    })
+    .catch(err => console.log(err));
 //  } else {
 //    blogContainer.appendChild(makeBlog(blogData.entries));
 //  }
