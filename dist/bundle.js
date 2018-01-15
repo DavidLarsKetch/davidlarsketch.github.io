@@ -67,7 +67,7 @@ const blogger = () => {
 
 module.exports = blogger;
 
-},{"./storage":7,"./xhr":8,"jquery":9}],2:[function(require,module,exports){
+},{"./storage":8,"./xhr":9,"jquery":10}],2:[function(require,module,exports){
 "use strict";
 
 const $ = require("jquery");
@@ -135,7 +135,7 @@ const contacter = () => {
 
 module.exports = contacter;
 
-},{"./storage":7,"./xhr":8,"jquery":9}],3:[function(require,module,exports){
+},{"./storage":8,"./xhr":9,"jquery":10}],3:[function(require,module,exports){
 "use strict";
 
 const $ = require('jquery');
@@ -149,7 +149,7 @@ const footer = () => {
 
 module.exports = footer;
 
-},{"jquery":9}],4:[function(require,module,exports){
+},{"jquery":10}],4:[function(require,module,exports){
 "use strict";
 
 const $ = require("jquery");
@@ -188,7 +188,7 @@ const makePageNav = item => {
 
 module.exports = header;
 
-},{"jquery":9}],5:[function(require,module,exports){
+},{"jquery":10}],5:[function(require,module,exports){
 "use strict";
 
 const footer = require("./footer");
@@ -199,7 +199,8 @@ header();
 const pages = {
   blog: require("./blogger"),
   contact: require("./contact"),
-  projects: require("./projects")
+  projects: require("./projects"),
+  resume: require("./resume")
 };
 
 const page = document.title.toLowerCase();
@@ -212,7 +213,7 @@ for (let key in pages) {
   }
 }
 
-},{"./blogger":1,"./contact":2,"./footer":3,"./header":4,"./projects":6}],6:[function(require,module,exports){
+},{"./blogger":1,"./contact":2,"./footer":3,"./header":4,"./projects":6,"./resume":7}],6:[function(require,module,exports){
 "use strict";
 
 const storage = require("./storage");
@@ -306,7 +307,49 @@ const projectMaker = () => {
 
 module.exports = projectMaker;
 
-},{"./storage":7}],7:[function(require,module,exports){
+},{"./storage":8}],7:[function(require,module,exports){
+"use strict";
+
+const $ = require('jquery');
+const xhr = require('./xhr');
+const storage = require('./storage');
+
+let resumeData;
+
+const makeResume = data => {
+  const mainElm = document.createElement("main");
+  mainElm.className = "resume-content";
+  const resumeTitle = document.createElement("h1");
+  resumeTitle.append("Resume");
+
+  const educationElm = document.createElement("section");
+  educationElm.id = "education";
+  educationElm.className = "education";
+  //Filter data to get those items with class of education, append to educationElm
+
+  const workElm = document.createElement("section");
+  workElm.id = "workExperience";
+  workElm.className = "work-experience";
+  //Filter data to get those items with class of work, append to workExperience
+
+  mainElm.append(resumeTitle);
+  mainElm.append(educationElm);
+  mainElm.append(workElm);
+
+  return mainElm;
+
+};
+
+module.exports.resume = () => {
+  xhr.getResume()
+  .then(data => {
+    resumeData = xhr.fbDataProcessor(data);
+    $("#resumeContainer").append(makeResume(resumeData));
+  })
+  .catch(err => console.log(err));
+};
+
+},{"./storage":8,"./xhr":9,"jquery":10}],8:[function(require,module,exports){
 "use strict";
 
 module.exports.retrieve = key => {
@@ -320,7 +363,7 @@ module.exports.save = (key, value) => {
   localStorage.setItem(key, value);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 const $ = require('jquery');
@@ -356,7 +399,17 @@ module.exports.getContacts = () => {
   });
 };
 
-},{"jquery":9}],9:[function(require,module,exports){
+module.exports.getResume = () => {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: `${fbURL}/resume/item.json`
+    })
+    .done(data => resolve(data))
+    .fail(err => reject(err));
+  });
+};
+
+},{"jquery":10}],10:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.2.1
  * https://jquery.com/
