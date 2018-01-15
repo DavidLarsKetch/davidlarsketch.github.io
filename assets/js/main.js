@@ -8,7 +8,8 @@ header();
 const pages = {
   blog: require("./blogger"),
   contact: require("./contact"),
-  projects: require("./projects")
+  projects: require("./projects"),
+  resume: require("./resume")
 };
 
 const page = document.title.toLowerCase();
