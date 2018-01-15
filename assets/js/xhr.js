@@ -32,3 +32,13 @@ module.exports.getContacts = () => {
     .fail(err => reject(err));
   });
 };
+
+module.exports.getResume = () => {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: `${fbURL}/resume/item.json`
+    })
+    .done(data => resolve(data))
+    .fail(err => reject(err));
+  });
+};
