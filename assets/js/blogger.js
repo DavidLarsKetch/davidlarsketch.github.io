@@ -50,18 +50,24 @@ const makeBlogCard = obj => {
 
 const blogger = () => {
   // First prints from localStorage; then reprints from AJAX call
+  // Next step is to compare the two data sets for differences & only print
+  // those differences. Currently, if user is reading blog post then they lose
+  // their place.
   blogData = storage.retrieve("blogData");
-  $blogContainer.append(makeBlog(blogData));
+  if (blogData) {
+    console.log("printing from localStorage");
+    $blogContainer.append(makeBlog(blogData));
+  }
 
   ajax.getBlog()
   .then(data => {
     blogData = ajax.fbDataProcessor(data);
     storage.save("blogData", blogData);
+    console.log("printing from ajax call");
     $blogContainer.empty();
     $blogContainer.append(makeBlog(blogData));
   })
   .catch(err => console.log(err));
-
 };
 
 module.exports = blogger;
