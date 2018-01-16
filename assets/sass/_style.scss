@@ -74,7 +74,7 @@ section {
   border: 1px solid $blog-item-color;
   display: flex;
   flex-direction: column;
-  flex: 0 1 20vw;
+  flex: 1 0 30vw;
   margin: $common-margin;
   padding: 2vh;
   min-width: 50vh;
@@ -155,4 +155,10 @@ section {
 .title {
   line-height: 50px;
   padding-left: 2vw;
+}
+
+@media (orientation: portrait) {
+  .blog-item {
+    flex: 0 1 100vw;
+  }
 }
