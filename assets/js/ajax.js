@@ -36,7 +36,7 @@ module.exports.getContacts = () => {
 module.exports.getResume = () => {
   return new Promise(function(resolve, reject) {
     $.ajax({
-      url: `${fbURL}/resume/item.json`
+      url: `${fbURL}/resume/items.json`
     })
     .done(data => resolve(data))
     .fail(err => reject(err));

@@ -55,7 +55,6 @@ const blogger = () => {
   // their place.
   blogData = storage.retrieve("blogData");
   if (blogData) {
-    console.log("printing from localStorage");
     $blogContainer.append(makeBlog(blogData));
   }
 
@@ -63,7 +62,6 @@ const blogger = () => {
   .then(data => {
     blogData = ajax.fbDataProcessor(data);
     storage.save("blogData", blogData);
-    console.log("printing from ajax call");
     $blogContainer.empty();
     $blogContainer.append(makeBlog(blogData));
   })
