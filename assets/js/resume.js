@@ -4,6 +4,7 @@ const $ = require('jquery');
 const ajax = require('./ajax');
 const storage = require('./storage');
 
+const $resumeContainer = $("#resumeContainer");
 let resumeData;
 
 const makeResume = data => {
@@ -31,10 +32,17 @@ const makeResume = data => {
 };
 
 const resume = () => {
+  resumeData = storage.retrieve("resumeData");
+  if (resumeData) {
+    $resumeContainer.append(makeResume(resumeData));
+  }
+
   ajax.getResume()
   .then(data => {
     resumeData = ajax.fbDataProcessor(data);
-    $("#resumeContainer").append(makeResume(resumeData));
+    storage.save("resumeData", resumeData);
+    $resumeContainer.empty();
+    $resumeContainer.append(makeResume(resumeData));
   })
   .catch(err => console.log(err));
 };
