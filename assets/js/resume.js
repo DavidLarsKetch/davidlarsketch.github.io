@@ -30,7 +30,7 @@ const makeResume = data => {
 
 };
 
-module.exports.resume = () => {
+const resume = () => {
   ajax.getResume()
   .then(data => {
     resumeData = ajax.fbDataProcessor(data);
@@ -38,3 +38,5 @@ module.exports.resume = () => {
   })
   .catch(err => console.log(err));
 };
+
+module.exports = resume;
