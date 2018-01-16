@@ -16,12 +16,19 @@ const makeResume = data => {
   const educationElm = document.createElement("section");
   educationElm.id = "education";
   educationElm.className = "education";
-  //Filter data to get those items with class of education, append to educationElm
+  const educationHeading = document.createElement("h2");
+  educationHeading.className = "section-heading";
+  educationHeading.append("Education");
+  educationElm.append(educationHeading);
 
   const workElm = document.createElement("section");
   workElm.id = "workExperience";
   workElm.className = "work-experience";
-  //Filter data to get those items with class of work, append to workExperience
+  const workHeading = document.createElement("h2");
+  workHeading.className = "section-heading";
+  workHeading.append("Work Experience");
+  workElm.append(workHeading);
+
 
   mainElm.append(resumeTitle);
   mainElm.append(educationElm);
