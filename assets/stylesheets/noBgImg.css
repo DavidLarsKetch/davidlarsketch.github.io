@@ -59,13 +59,32 @@ section {
   border: 1px solid black;
   display: flex;
   flex-direction: column;
-  flex: 0 1 20vw;
+  flex: 0 1 30vw;
   margin: 1vh;
-  padding: 2vh;
-  min-width: 50vh; }
+  height: calc(1.62 * 50vh);
+  padding: 5.5vh;
+  position: relative; }
+  .blog-item ::-webkit-scrollbar {
+    background: transparent;
+    width: 0px; }
+
+.blog-item::after {
+  background: linear-gradient(transparent, white);
+  bottom: 5vh;
+  content: "";
+  height: 10%;
+  position: absolute;
+  width: calc(100% - 11vh); }
+
+.blog-text {
+  overflow: auto;
+  padding-bottom: 10vh;
+  position: relative;
+  text-align: justify; }
 
 .blog-title {
   border-bottom: 1px solid black;
+  font-weight: bold;
   padding-bottom: 1vh; }
 
 .container {
@@ -126,5 +145,12 @@ section {
 .title {
   line-height: 50px;
   padding-left: 2vw; }
+
+@media (orientation: portrait) {
+  .blog-item {
+    flex: 0 1 100vw; }
+
+  .container {
+    font-size: 2rem; } }
 
 /*# sourceMappingURL=noBgImg.css.map */

@@ -74,10 +74,9 @@ section {
   border: 1px solid $blog-item-color;
   display: flex;
   flex-direction: column;
-  flex: 1 0 30vw;
+  flex: 0 1 30vw;
   margin: $common-margin;
-  padding: 2vh;
-  min-width: 50vh;
+  height: calc(1.62 * 50vh);
   padding: $blog-item-padding;
   position: relative;
   ::-webkit-scrollbar {
