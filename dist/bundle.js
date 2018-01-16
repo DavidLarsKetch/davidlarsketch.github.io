@@ -37,7 +37,7 @@ module.exports.getContacts = () => {
 module.exports.getResume = () => {
   return new Promise(function(resolve, reject) {
     $.ajax({
-      url: `${fbURL}/resume/item.json`
+      url: `${fbURL}/resume/items.json`
     })
     .done(data => resolve(data))
     .fail(err => reject(err));
@@ -97,8 +97,13 @@ const makeBlogCard = obj => {
 
 const blogger = () => {
   // First prints from localStorage; then reprints from AJAX call
+  // Next step is to compare the two data sets for differences & only print
+  // those differences. Currently, if user is reading blog post then they lose
+  // their place.
   blogData = storage.retrieve("blogData");
-  $blogContainer.append(makeBlog(blogData));
+  if (blogData) {
+    $blogContainer.append(makeBlog(blogData));
+  }
 
   ajax.getBlog()
   .then(data => {
@@ -108,7 +113,6 @@ const blogger = () => {
     $blogContainer.append(makeBlog(blogData));
   })
   .catch(err => console.log(err));
-
 };
 
 module.exports = blogger;
@@ -360,6 +364,7 @@ const $ = require('jquery');
 const ajax = require('./ajax');
 const storage = require('./storage');
 
+const $resumeContainer = $("#resumeContainer");
 let resumeData;
 
 const makeResume = data => {
@@ -371,29 +376,57 @@ const makeResume = data => {
   const educationElm = document.createElement("section");
   educationElm.id = "education";
   educationElm.className = "education";
-  //Filter data to get those items with class of education, append to educationElm
+  const educationHeading = document.createElement("h2");
+  educationHeading.className = "section-heading";
+  educationHeading.append("Education");
+  educationElm.append(educationHeading);
 
   const workElm = document.createElement("section");
   workElm.id = "workExperience";
   workElm.className = "work-experience";
-  //Filter data to get those items with class of work, append to workExperience
+  const workHeading = document.createElement("h2");
+  workHeading.className = "section-heading";
+  workHeading.append("Work Experience");
+  workElm.append(workHeading);
+
+  data.forEach(obj => {
+    let content = $.parseHTML(obj.content);
+    let articleElm = document.createElement("article");
+    articleElm.className = "resume-item";
+
+    content.forEach(elm => articleElm.append(elm));
+
+    if (obj.class === "education") {
+      educationElm.append(articleElm);
+    } else if (obj.class === "work") {
+      workElm.append(articleElm);
+    }
+  });
 
   mainElm.append(resumeTitle);
   mainElm.append(educationElm);
   mainElm.append(workElm);
 
   return mainElm;
-
 };
 
-module.exports.resume = () => {
+const resume = () => {
+  resumeData = storage.retrieve("resumeData");
+  if (resumeData) {
+    $resumeContainer.append(makeResume(resumeData));
+  }
+
   ajax.getResume()
   .then(data => {
     resumeData = ajax.fbDataProcessor(data);
-    $("#resumeContainer").append(makeResume(resumeData));
+    storage.save("resumeData", resumeData);
+    $resumeContainer.empty();
+    $resumeContainer.append(makeResume(resumeData));
   })
   .catch(err => console.log(err));
 };
+
+module.exports = resume;
 
 },{"./ajax":1,"./storage":9,"jquery":10}],9:[function(require,module,exports){
 "use strict";
