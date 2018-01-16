@@ -79,6 +79,27 @@ section {
   padding: 2vh;
   min-width: 50vh;
   padding: $blog-item-padding;
+  position: relative;
+  ::-webkit-scrollbar {
+    background: transparent;
+    width: 0px;
+  }
+}
+
+.blog-item::after {
+  background: linear-gradient(transparent, white);
+  bottom: 5vh;
+  content: "";
+  height: 10%;
+  position: absolute;
+  width: calc(100% - 11vh);
+}
+
+.blog-text {
+  overflow: auto;
+  padding-bottom: 10vh;
+  position: relative;
+  text-align: justify;
 }
 
 .blog-title {
