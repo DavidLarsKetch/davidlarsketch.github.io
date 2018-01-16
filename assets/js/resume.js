@@ -29,13 +29,25 @@ const makeResume = data => {
   workHeading.append("Work Experience");
   workElm.append(workHeading);
 
+  data.forEach(obj => {
+    let content = $.parseHTML(obj.content);
+    let articleElm = document.createElement("article");
+    articleElm.className = "resume-item";
+
+    content.forEach(elm => articleElm.append(elm));
+
+    if (obj.class === "education") {
+      educationElm.append(articleElm);
+    } else if (obj.class === "work") {
+      workElm.append(articleElm);
+    }
+  });
 
   mainElm.append(resumeTitle);
   mainElm.append(educationElm);
   mainElm.append(workElm);
 
   return mainElm;
-
 };
 
 const resume = () => {
