@@ -28,7 +28,7 @@ const makeBlogCard = obj => {
   const entryCardElm = document.createElement("div");
   entryCardElm.className = "blog-item";
 
-  const entryTitleElm = document.createElement("h4");
+  const entryTitleElm = document.createElement("div");
   entryTitleElm.append(obj.title);
   entryTitleElm.className = "blog-title";
 
@@ -37,7 +37,8 @@ const makeBlogCard = obj => {
   entryDateElm.className = "blog-date";
 
   const entryContentElm = document.createElement("span");
-  entryContentElm.append(obj.content);
+  let content = $.parseHTML(obj.content);
+  content.forEach(elm => entryContentElm.append(elm));
   entryContentElm.className = "blog-text";
 
   entryCardElm.append(entryTitleElm);
