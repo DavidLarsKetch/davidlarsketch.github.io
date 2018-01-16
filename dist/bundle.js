@@ -2,9 +2,56 @@
 "use strict";
 
 const $ = require('jquery');
-const storage = require("./storage");
-const xhr = require("./xhr");
+const fbURL = "https://davidlarsketch-8da73.firebaseio.com";
 
+module.exports.fbDataProcessor = data => {
+  let dataToSend = [];
+  let keys = Object.keys(data);
+  keys.forEach(key => {
+    data[key].id = key;
+    dataToSend.push(data[key]);
+  });
+  return dataToSend;
+};
+
+module.exports.getBlog = () => {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: `${fbURL}/blog/entries.json`
+    })
+    .done(data => resolve(data))
+    .fail(err => reject(err));
+  });
+};
+
+module.exports.getContacts = () => {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: `${fbURL}/contacts/items.json`
+    })
+    .done(data => resolve(data))
+    .fail(err => reject(err));
+  });
+};
+
+module.exports.getResume = () => {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: `${fbURL}/resume/item.json`
+    })
+    .done(data => resolve(data))
+    .fail(err => reject(err));
+  });
+};
+
+},{"jquery":10}],2:[function(require,module,exports){
+"use strict";
+
+const $ = require('jquery');
+const storage = require("./storage");
+const ajax = require("./ajax");
+
+const $blogContainer = $("#blogContainer");
 let blogData;
 
 const makeBlog = data => {
@@ -49,30 +96,28 @@ const makeBlogCard = obj => {
 };
 
 const blogger = () => {
-  //Commented out code - remove comments to enable drawing from localStorage &
-  //not being able to update.
-  //Needs function for comparing localStorage & JSON data.
-//  blogData = storage.retrieve("blogData");
-//  if (!blogData) {
-    xhr.getBlog()
-    .then(data => {
-      blogData = xhr.fbDataProcessor(data);
-      $("#blogContainer").append(makeBlog(blogData));
-    })
-    .catch(err => console.log(err));
-//  } else {
-//    blogContainer.appendChild(makeBlog(blogData.entries));
-//  }
+  // First prints from localStorage; then reprints from AJAX call
+  blogData = storage.retrieve("blogData");
+  $blogContainer.append(makeBlog(blogData));
+
+  ajax.getBlog()
+  .then(data => {
+    blogData = ajax.fbDataProcessor(data);
+    storage.save("blogData", blogData);
+    $blogContainer.empty();
+    $blogContainer.append(makeBlog(blogData));
+  })
+  .catch(err => console.log(err));
 
 };
 
 module.exports = blogger;
 
-},{"./storage":8,"./xhr":9,"jquery":10}],2:[function(require,module,exports){
+},{"./ajax":1,"./storage":9,"jquery":10}],3:[function(require,module,exports){
 "use strict";
 
 const $ = require("jquery");
-const xhr = require("./xhr");
+const ajax = require("./ajax");
 const storage = require('./storage');
 
 let contactsData = [];
@@ -126,9 +171,9 @@ const makeContactItem = obj => {
 
 const contacter = () => {
 
-  xhr.getContacts()
+  ajax.getContacts()
   .then(data => {
-    contactsData = xhr.fbDataProcessor(data);
+    contactsData = ajax.fbDataProcessor(data);
     $("#contactContainer").append(makeContacts(contactsData));
   })
   .catch(err => console.log(err));
@@ -136,7 +181,7 @@ const contacter = () => {
 
 module.exports = contacter;
 
-},{"./storage":8,"./xhr":9,"jquery":10}],3:[function(require,module,exports){
+},{"./ajax":1,"./storage":9,"jquery":10}],4:[function(require,module,exports){
 "use strict";
 
 const $ = require('jquery');
@@ -150,7 +195,7 @@ const footer = () => {
 
 module.exports = footer;
 
-},{"jquery":10}],4:[function(require,module,exports){
+},{"jquery":10}],5:[function(require,module,exports){
 "use strict";
 
 const $ = require("jquery");
@@ -189,7 +234,7 @@ const makePageNav = item => {
 
 module.exports = header;
 
-},{"jquery":10}],5:[function(require,module,exports){
+},{"jquery":10}],6:[function(require,module,exports){
 "use strict";
 
 const footer = require("./footer");
@@ -214,7 +259,7 @@ for (let key in pages) {
   }
 }
 
-},{"./blogger":1,"./contact":2,"./footer":3,"./header":4,"./projects":6,"./resume":7}],6:[function(require,module,exports){
+},{"./blogger":2,"./contact":3,"./footer":4,"./header":5,"./projects":7,"./resume":8}],7:[function(require,module,exports){
 "use strict";
 
 const storage = require("./storage");
@@ -308,11 +353,11 @@ const projectMaker = () => {
 
 module.exports = projectMaker;
 
-},{"./storage":8}],7:[function(require,module,exports){
+},{"./storage":9}],8:[function(require,module,exports){
 "use strict";
 
 const $ = require('jquery');
-const xhr = require('./xhr');
+const ajax = require('./ajax');
 const storage = require('./storage');
 
 let resumeData;
@@ -342,15 +387,15 @@ const makeResume = data => {
 };
 
 module.exports.resume = () => {
-  xhr.getResume()
+  ajax.getResume()
   .then(data => {
-    resumeData = xhr.fbDataProcessor(data);
+    resumeData = ajax.fbDataProcessor(data);
     $("#resumeContainer").append(makeResume(resumeData));
   })
   .catch(err => console.log(err));
 };
 
-},{"./storage":8,"./xhr":9,"jquery":10}],8:[function(require,module,exports){
+},{"./ajax":1,"./storage":9,"jquery":10}],9:[function(require,module,exports){
 "use strict";
 
 module.exports.retrieve = key => {
@@ -364,53 +409,7 @@ module.exports.save = (key, value) => {
   localStorage.setItem(key, value);
 };
 
-},{}],9:[function(require,module,exports){
-"use strict";
-
-const $ = require('jquery');
-const fbURL = "https://davidlarsketch-8da73.firebaseio.com";
-
-module.exports.fbDataProcessor = data => {
-  let dataToSend = [];
-  let keys = Object.keys(data);
-  keys.forEach(key => {
-    data[key].id = key;
-    dataToSend.push(data[key]);
-  });
-  return dataToSend;
-};
-
-module.exports.getBlog = () => {
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: `${fbURL}/blog/entries.json`
-    })
-    .done(data => resolve(data))
-    .fail(err => reject(err));
-  });
-};
-
-module.exports.getContacts = () => {
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: `${fbURL}/contacts/items.json`
-    })
-    .done(data => resolve(data))
-    .fail(err => reject(err));
-  });
-};
-
-module.exports.getResume = () => {
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: `${fbURL}/resume/item.json`
-    })
-    .done(data => resolve(data))
-    .fail(err => reject(err));
-  });
-};
-
-},{"jquery":10}],10:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.2.1
  * https://jquery.com/
@@ -10665,4 +10664,4 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}]},{},[5]);
+},{}]},{},[6]);

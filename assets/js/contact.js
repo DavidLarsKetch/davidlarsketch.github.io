@@ -1,7 +1,7 @@
 "use strict";
 
 const $ = require("jquery");
-const xhr = require("./xhr");
+const ajax = require("./ajax");
 const storage = require('./storage');
 
 let contactsData = [];
@@ -55,9 +55,9 @@ const makeContactItem = obj => {
 
 const contacter = () => {
 
-  xhr.getContacts()
+  ajax.getContacts()
   .then(data => {
-    contactsData = xhr.fbDataProcessor(data);
+    contactsData = ajax.fbDataProcessor(data);
     $("#contactContainer").append(makeContacts(contactsData));
   })
   .catch(err => console.log(err));

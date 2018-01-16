@@ -2,8 +2,9 @@
 
 const $ = require('jquery');
 const storage = require("./storage");
-const xhr = require("./xhr");
+const ajax = require("./ajax");
 
+const $blogContainer = $("#blogContainer");
 let blogData;
 
 const makeBlog = data => {
@@ -48,20 +49,18 @@ const makeBlogCard = obj => {
 };
 
 const blogger = () => {
-  //Commented out code - remove comments to enable drawing from localStorage &
-  //not being able to update.
-  //Needs function for comparing localStorage & JSON data.
-//  blogData = storage.retrieve("blogData");
-//  if (!blogData) {
-    xhr.getBlog()
-    .then(data => {
-      blogData = xhr.fbDataProcessor(data);
-      $("#blogContainer").append(makeBlog(blogData));
-    })
-    .catch(err => console.log(err));
-//  } else {
-//    blogContainer.appendChild(makeBlog(blogData.entries));
-//  }
+  // First prints from localStorage; then reprints from AJAX call
+  blogData = storage.retrieve("blogData");
+  $blogContainer.append(makeBlog(blogData));
+
+  ajax.getBlog()
+  .then(data => {
+    blogData = ajax.fbDataProcessor(data);
+    storage.save("blogData", blogData);
+    $blogContainer.empty();
+    $blogContainer.append(makeBlog(blogData));
+  })
+  .catch(err => console.log(err));
 
 };
 

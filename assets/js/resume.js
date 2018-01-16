@@ -1,7 +1,7 @@
 "use strict";
 
 const $ = require('jquery');
-const xhr = require('./xhr');
+const ajax = require('./ajax');
 const storage = require('./storage');
 
 let resumeData;
@@ -31,9 +31,9 @@ const makeResume = data => {
 };
 
 module.exports.resume = () => {
-  xhr.getResume()
+  ajax.getResume()
   .then(data => {
-    resumeData = xhr.fbDataProcessor(data);
+    resumeData = ajax.fbDataProcessor(data);
     $("#resumeContainer").append(makeResume(resumeData));
   })
   .catch(err => console.log(err));
