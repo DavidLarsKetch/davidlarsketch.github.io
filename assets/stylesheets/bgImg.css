@@ -69,7 +69,7 @@ section {
     width: 0px; }
 
 .blog-item::after {
-  background: linear-gradient(transparent, white), -moz-linear-gradient(transparent, white), -webkit-linear-gradient(transparent, white);
+  background: linear-gradient(transparent, white);
   bottom: 5vh;
   content: "";
   height: 10%;
