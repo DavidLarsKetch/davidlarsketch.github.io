@@ -10,3 +10,7 @@ module.exports.save = (key, value) => {
   value = JSON.stringify(value);
   localStorage.setItem(key, value);
 };
+
+module.exports.delete = key => {
+  localStorage.removeItem(key);
+};
