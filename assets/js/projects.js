@@ -1,39 +1,39 @@
 "use strict";
 
+const $ = require("jquery");
 const storage = require("./storage");
 
 let projectsData = {};
-const projectsContainer = document.getElementById("projectsContainer");
+const $projectsContainer = $("#projectsContainer");
 
 const makeProjects = data => {
   const mainElm = document.createElement("main");
   const projectsTitleElm = document.createElement("h1");
-  const projectsTitleNode = document.createTextNode("Projects");
-  const projectsWrapper = document.createElement("div");
-  const projectsCollabWrapper = document.createElement("span");
-  const projectsCollabTitleElm = document.createElement("h3");
-  const projectsCollabTitleNode = document.createTextNode("Collaborative");
-  const projectsSoloWrapper = document.createElement("span");
-  const projectsSoloTitleElm = document.createElement("h3");
-  const projectsSoloTitleNode = document.createTextNode("Solo");
+  mainElm.append(projectsTitleElm);
+  projectsTitleElm.append("Projects");
 
+  const projectsWrapper = document.createElement("div");
   projectsWrapper.id = "projectsWrapper";
   projectsWrapper.className = "projects-wrapper";
-  projectsCollabWrapper.id = "projectsCollab";
-  projectsCollabWrapper.className = "projects-column projects-collab";
-  projectsSoloWrapper.id = "projectsSolo";
-  projectsSoloWrapper.className = "projects-column projects-solo";
-
-  mainElm.appendChild(projectsTitleElm);
-  projectsTitleElm.appendChild(projectsTitleNode);
-  projectsWrapper.appendChild(projectsCollabWrapper);
-  projectsWrapper.appendChild(projectsSoloWrapper);
-  projectsCollabWrapper.appendChild(projectsCollabTitleElm);
-  projectsCollabTitleElm.appendChild(projectsCollabTitleNode);
-  projectsSoloWrapper.appendChild(projectsSoloTitleElm);
-  projectsSoloTitleElm.appendChild(projectsSoloTitleNode);
   mainElm.appendChild(projectsWrapper);
 
+  const projectsCollabWrapper = document.createElement("span");
+  projectsCollabWrapper.id = "projectsCollab";
+  projectsCollabWrapper.className = "projects-column projects-collab";
+  projectsWrapper.append(projectsCollabWrapper);
+
+  const projectsCollabTitleElm = document.createElement("h3");
+  projectsCollabWrapper.append(projectsCollabTitleElm);
+  projectsCollabTitleElm.append("Collaborative");
+
+  const projectsSoloWrapper = document.createElement("span");
+  projectsSoloWrapper.id = "projectsSolo";
+  projectsSoloWrapper.className = "projects-column projects-solo";
+  projectsWrapper.append(projectsSoloWrapper);
+
+  const projectsSoloTitleElm = document.createElement("h3");
+  projectsSoloWrapper.append(projectsSoloTitleElm);
+  projectsSoloTitleElm.append("Solo");
   data.forEach(project => {
     if (project.category === "collab") {
       projectsCollabWrapper.appendChild(makeProjectCard(project));
@@ -42,31 +42,27 @@ const makeProjects = data => {
     }
   });
 
-
   return mainElm;
 };
 
 const makeProjectCard = obj => {
   const projectCardElm = document.createElement("section");
-
+  projectCardElm.className = "project-item";
 
   const projectLinkElm = document.createElement("a");
-  const projectContentElm = document.createElement("img");
-
-  const projectTitleElm = document.createElement("span");
-  const projectTitleNode = document.createTextNode(obj.title);
-
-  projectCardElm.className = "project-item";
   projectLinkElm.href = obj.link;
   projectLinkElm.target = "_blank";
+  projectCardElm.append(projectLinkElm);
+
+  const projectTitleElm = document.createElement("span");
+  projectTitleElm.className = "project-title";
+  projectCardElm.append(projectTitleElm);
+  projectTitleElm.append(obj.title);
+
+  const projectContentElm = document.createElement("img");
   projectContentElm.src = obj.img;
   projectContentElm.className = `project-img ${obj.category}`;
-  projectTitleElm.className = "project-title";
-
-  projectCardElm.appendChild(projectLinkElm);
-  projectCardElm.appendChild(projectTitleElm);
-  projectLinkElm.appendChild(projectContentElm);
-  projectTitleElm.appendChild(projectTitleNode);
+  projectLinkElm.append(projectContentElm);
 
   return projectCardElm;
 };
