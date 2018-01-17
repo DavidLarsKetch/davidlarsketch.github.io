@@ -67,7 +67,7 @@ const makeProjectCard = obj => {
   return projectCardElm;
 };
 
-const projectMaker = () => {
+const projects = () => {
   projectsData = storage.retrieve("projectsData");
   if (!projectsData) {
     const loader = new XMLHttpRequest();
@@ -85,4 +85,4 @@ const projectMaker = () => {
   }
 };
 
-module.exports = projectMaker;
+module.exports = projects;
