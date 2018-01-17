@@ -44,6 +44,16 @@ module.exports.getResume = () => {
   });
 };
 
+module.exports.getProjects = () => {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: `${fbURL}/projects.json`
+    })
+    .done(data => resolve(data))
+    .fail(err => reject(err));
+  });
+};
+
 },{"jquery":10}],2:[function(require,module,exports){
 "use strict";
 
@@ -282,40 +292,41 @@ for (let key in pages) {
 },{"./blogger":2,"./contact":3,"./footer":4,"./header":5,"./projects":7,"./resume":8}],7:[function(require,module,exports){
 "use strict";
 
+const $ = require("jquery");
+const ajax = require("./ajax");
 const storage = require("./storage");
 
 let projectsData = {};
-const projectsContainer = document.getElementById("projectsContainer");
+const $projectsContainer = $("#projectsContainer");
 
 const makeProjects = data => {
   const mainElm = document.createElement("main");
   const projectsTitleElm = document.createElement("h1");
-  const projectsTitleNode = document.createTextNode("Projects");
-  const projectsWrapper = document.createElement("div");
-  const projectsCollabWrapper = document.createElement("span");
-  const projectsCollabTitleElm = document.createElement("h3");
-  const projectsCollabTitleNode = document.createTextNode("Collaborative");
-  const projectsSoloWrapper = document.createElement("span");
-  const projectsSoloTitleElm = document.createElement("h3");
-  const projectsSoloTitleNode = document.createTextNode("Solo");
+  mainElm.append(projectsTitleElm);
+  projectsTitleElm.append("Projects");
 
+  const projectsWrapper = document.createElement("div");
   projectsWrapper.id = "projectsWrapper";
   projectsWrapper.className = "projects-wrapper";
-  projectsCollabWrapper.id = "projectsCollab";
-  projectsCollabWrapper.className = "projects-column projects-collab";
-  projectsSoloWrapper.id = "projectsSolo";
-  projectsSoloWrapper.className = "projects-column projects-solo";
-
-  mainElm.appendChild(projectsTitleElm);
-  projectsTitleElm.appendChild(projectsTitleNode);
-  projectsWrapper.appendChild(projectsCollabWrapper);
-  projectsWrapper.appendChild(projectsSoloWrapper);
-  projectsCollabWrapper.appendChild(projectsCollabTitleElm);
-  projectsCollabTitleElm.appendChild(projectsCollabTitleNode);
-  projectsSoloWrapper.appendChild(projectsSoloTitleElm);
-  projectsSoloTitleElm.appendChild(projectsSoloTitleNode);
   mainElm.appendChild(projectsWrapper);
 
+  const projectsCollabWrapper = document.createElement("span");
+  projectsCollabWrapper.id = "projectsCollab";
+  projectsCollabWrapper.className = "projects-column projects-collab";
+  projectsWrapper.append(projectsCollabWrapper);
+
+  const projectsCollabTitleElm = document.createElement("h3");
+  projectsCollabWrapper.append(projectsCollabTitleElm);
+  projectsCollabTitleElm.append("Collaborative");
+
+  const projectsSoloWrapper = document.createElement("span");
+  projectsSoloWrapper.id = "projectsSolo";
+  projectsSoloWrapper.className = "projects-column projects-solo";
+  projectsWrapper.append(projectsSoloWrapper);
+
+  const projectsSoloTitleElm = document.createElement("h3");
+  projectsSoloWrapper.append(projectsSoloTitleElm);
+  projectsSoloTitleElm.append("Solo");
   data.forEach(project => {
     if (project.category === "collab") {
       projectsCollabWrapper.appendChild(makeProjectCard(project));
@@ -324,56 +335,49 @@ const makeProjects = data => {
     }
   });
 
-
   return mainElm;
 };
 
 const makeProjectCard = obj => {
   const projectCardElm = document.createElement("section");
-
+  projectCardElm.className = "project-item";
 
   const projectLinkElm = document.createElement("a");
-  const projectContentElm = document.createElement("img");
-
-  const projectTitleElm = document.createElement("span");
-  const projectTitleNode = document.createTextNode(obj.title);
-
-  projectCardElm.className = "project-item";
   projectLinkElm.href = obj.link;
   projectLinkElm.target = "_blank";
+  projectCardElm.append(projectLinkElm);
+
+  const projectTitleElm = document.createElement("span");
+  projectTitleElm.className = "project-title";
+  projectCardElm.append(projectTitleElm);
+  projectTitleElm.append(obj.title);
+
+  const projectContentElm = document.createElement("img");
   projectContentElm.src = obj.img;
   projectContentElm.className = `project-img ${obj.category}`;
-  projectTitleElm.className = "project-title";
-
-  projectCardElm.appendChild(projectLinkElm);
-  projectCardElm.appendChild(projectTitleElm);
-  projectLinkElm.appendChild(projectContentElm);
-  projectTitleElm.appendChild(projectTitleNode);
+  projectLinkElm.append(projectContentElm);
 
   return projectCardElm;
 };
 
-const projectMaker = () => {
+const projects = () => {
   projectsData = storage.retrieve("projectsData");
-  if (!projectsData) {
-    const loader = new XMLHttpRequest();
 
-    loader.addEventListener("load", () => {
-      projectsData = JSON.parse(loader.responseText);
-      projectsContainer.appendChild(makeProjects(projectsData.projects));
-      storage.save("projectsData", projectsData);
+  if(projectsData) $projectsContainer.append(makeProjects(projectsData));
 
-    });
-    loader.open("GET", "./assets/json/projects.json");
-    loader.send();
-  } else {
-    projectsContainer.appendChild(makeProjects(projectsData.projects));
-  }
+  ajax.getProjects()
+  .then(data => {
+    projectsData = ajax.fbDataProcessor(data);
+    storage.save("projectsData", projectsData);
+    $projectsContainer.empty();
+    $projectsContainer.append(makeProjects(projectsData));
+  })
+  .catch(err => console.log(err));
 };
 
-module.exports = projectMaker;
+module.exports = projects;
 
-},{"./storage":9}],8:[function(require,module,exports){
+},{"./ajax":1,"./storage":9,"jquery":10}],8:[function(require,module,exports){
 "use strict";
 
 const $ = require('jquery');
@@ -456,6 +460,10 @@ module.exports.retrieve = key => {
 module.exports.save = (key, value) => {
   value = JSON.stringify(value);
   localStorage.setItem(key, value);
+};
+
+module.exports.delete = key => {
+  localStorage.removeItem(key);
 };
 
 },{}],10:[function(require,module,exports){
