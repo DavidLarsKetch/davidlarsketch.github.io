@@ -98,7 +98,7 @@ section {
   background: #e34234;
   margin: 5vh 0;
   text-align: center;
-  width: 20%; }
+  width: 30%; }
 
 .contact-link {
   display: flex;
@@ -173,9 +173,6 @@ section {
   header, footer {
     font-size: 2rem;
     height: 5rem; }
-    header .nav-links, footer .nav-links {
-      font-size: 2rem;
-      transform: rotate(100deg); }
 
   .blog-item {
     flex: 0 1 100vw; }
