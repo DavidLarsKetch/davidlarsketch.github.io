@@ -86,7 +86,9 @@ section {
 }
 
 .blog-item::after {
-  background: linear-gradient(transparent, white);
+  background: linear-gradient(transparent, white),
+              -moz-linear-gradient(transparent, white),
+              -webkit-linear-gradient(transparent, white);
   bottom: 5vh;
   content: "";
   height: 10%;
@@ -177,7 +179,7 @@ section {
   padding-left: 2vw;
 }
 
-@media (orientation: portrait) {
+@media (max-aspect-ratio: 14/10) {
   .blog-item {
     flex: 0 1 100vw;
   }
