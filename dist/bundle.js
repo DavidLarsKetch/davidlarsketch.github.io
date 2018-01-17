@@ -124,6 +124,7 @@ const $ = require("jquery");
 const ajax = require("./ajax");
 const storage = require('./storage');
 
+const $contactsContainer = $('#contactsContainer');
 let contactsData = [];
 
 const makeContacts = data => {
@@ -174,11 +175,16 @@ const makeContactItem = obj => {
 };
 
 const contacter = () => {
+  contactsData = storage.retrieve("contactsData");
+  if (contactsData) {
+    $contactsContainer.append(makeContacts(contactsData));
+  }
 
   ajax.getContacts()
   .then(data => {
     contactsData = ajax.fbDataProcessor(data);
-    $("#contactContainer").append(makeContacts(contactsData));
+    storage.save("contactsData", contactsData);
+    $contactsContainer.empty().append(makeContacts(contactsData));
   })
   .catch(err => console.log(err));
 };
