@@ -1,6 +1,7 @@
 "use strict";
 
 const $ = require("jquery");
+const ajax = require("./ajax");
 const storage = require("./storage");
 
 let projectsData = {};
@@ -69,20 +70,17 @@ const makeProjectCard = obj => {
 
 const projects = () => {
   projectsData = storage.retrieve("projectsData");
-  if (!projectsData) {
-    const loader = new XMLHttpRequest();
 
-    loader.addEventListener("load", () => {
-      projectsData = JSON.parse(loader.responseText);
-      projectsContainer.appendChild(makeProjects(projectsData.projects));
-      storage.save("projectsData", projectsData);
+  if(projectsData) $projectsContainer.append(makeProjects(projectsData));
 
-    });
-    loader.open("GET", "./assets/json/projects.json");
-    loader.send();
-  } else {
-    projectsContainer.appendChild(makeProjects(projectsData.projects));
-  }
+  ajax.getProjects()
+  .then(data => {
+    projectsData = ajax.fbDataProcessor(data);
+    storage.save("projectsData", projectsData);
+    $projectsContainer.empty();
+    $projectsContainer.append(makeProjects(projectsData));
+  })
+  .catch(err => console.log(err));
 };
 
 module.exports = projects;
