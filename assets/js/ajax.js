@@ -42,3 +42,13 @@ module.exports.getResume = () => {
     .fail(err => reject(err));
   });
 };
+
+module.exports.getProjects = () => {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: `${fbURL}/projects.json`
+    })
+    .done(data => resolve(data))
+    .fail(err => reject(err));
+  });
+};
