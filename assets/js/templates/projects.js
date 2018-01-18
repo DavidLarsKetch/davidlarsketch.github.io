@@ -1,13 +1,12 @@
 "use strict";
 
 const $ = require("jquery");
-const ajax = require("./ajax");
-const storage = require("./storage");
 
 let projectsData = {};
-const $projectsContainer = $("#projectsContainer");
 
 const makeProjects = data => {
+  projectsData = data;
+
   const mainElm = document.createElement("main");
   const projectsTitleElm = document.createElement("h1");
   mainElm.append(projectsTitleElm);
@@ -68,19 +67,4 @@ const makeProjectCard = obj => {
   return projectCardElm;
 };
 
-const projects = () => {
-  projectsData = storage.retrieve("projectsData");
-
-  if(projectsData) $projectsContainer.append(makeProjects(projectsData));
-
-  ajax.getProjects()
-  .then(data => {
-    projectsData = ajax.fbDataProcessor(data);
-    storage.save("projectsData", projectsData);
-    $projectsContainer.empty();
-    $projectsContainer.append(makeProjects(projectsData));
-  })
-  .catch(err => console.log(err));
-};
-
-module.exports = projects;
+module.exports = makeProjects;
