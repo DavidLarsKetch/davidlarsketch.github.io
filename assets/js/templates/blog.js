@@ -1,13 +1,12 @@
 "use strict";
 
 const $ = require('jquery');
-const storage = require("./storage");
-const ajax = require("./ajax");
 
-const $blogContainer = $("#blogContainer");
 let blogData;
 
 const makeBlog = data => {
+  blogData = data;
+
   const mainElm = document.createElement("main");
   const blogTitleElm = document.createElement("h1");
   blogTitleElm.append("Blog");
@@ -16,7 +15,7 @@ const makeBlog = data => {
   blogHolder.id = "blogHolder";
   blogHolder.className = "blog";
 
-  data.reverse().forEach(entry => blogHolder.append(makeBlogCard(entry)));
+  blogData.reverse().forEach(entry => blogHolder.append(makeBlogCard(entry)));
 
   mainElm.append(blogTitleElm);
   mainElm.append(blogHolder);
@@ -48,24 +47,4 @@ const makeBlogCard = obj => {
   return entryCardElm;
 };
 
-const blogger = () => {
-  // First prints from localStorage; then reprints from AJAX call
-  // Next step is to compare the two data sets for differences & only print
-  // those differences. Currently, if user is reading blog post then they lose
-  // their place.
-  blogData = storage.retrieve("blogData");
-  if (blogData) {
-    $blogContainer.append(makeBlog(blogData));
-  }
-
-  ajax.getBlog()
-  .then(data => {
-    blogData = ajax.fbDataProcessor(data);
-    storage.save("blogData", blogData);
-    $blogContainer.empty();
-    $blogContainer.append(makeBlog(blogData));
-  })
-  .catch(err => console.log(err));
-};
-
-module.exports = blogger;
+module.exports = makeBlog;
