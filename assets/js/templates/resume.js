@@ -1,13 +1,12 @@
 "use strict";
 
 const $ = require('jquery');
-const ajax = require('./ajax');
-const storage = require('./storage');
 
-const $resumeContainer = $("#resumeContainer");
 let resumeData;
 
 const makeResume = data => {
+  resumeData = data;
+
   const mainElm = document.createElement("main");
   mainElm.className = "resume-content";
   const resumeTitle = document.createElement("h1");
@@ -29,7 +28,7 @@ const makeResume = data => {
   workHeading.append("Work Experience");
   workElm.append(workHeading);
 
-  data.forEach(obj => {
+  resumeData.forEach(obj => {
     let content = $.parseHTML(obj.content);
     let articleElm = document.createElement("article");
     articleElm.className = "resume-item";
@@ -50,20 +49,4 @@ const makeResume = data => {
   return mainElm;
 };
 
-const resume = () => {
-  resumeData = storage.retrieve("resumeData");
-  if (resumeData) {
-    $resumeContainer.append(makeResume(resumeData));
-  }
-
-  ajax.getResume()
-  .then(data => {
-    resumeData = ajax.fbDataProcessor(data);
-    storage.save("resumeData", resumeData);
-    $resumeContainer.empty();
-    $resumeContainer.append(makeResume(resumeData));
-  })
-  .catch(err => console.log(err));
-};
-
-module.exports = resume;
+module.exports = makeResume;
