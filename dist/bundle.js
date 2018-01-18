@@ -1,10 +1,42 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
+const model = require("./model");
+const storage = require("./utils/storage");
+const view = require("./view");
+
+let currentPage = document.title.toLowerCase();
+
+const loadPage = () => {
+  view.printToAllPages();
+
+  let localStorageData = storage.retrieve(`${currentPage}Data`);
+  if(localStorageData) view.printThisPage(currentPage, localStorageData);
+
+  model.getData(currentPage)
+  .then(data => {
+    view.printThisPage(currentPage, data);
+    storage.save(`${currentPage}Data`, data);
+  })
+  .catch(err => console.log(err));
+};
+
+module.exports = {loadPage};
+
+},{"./model":3,"./utils/storage":10,"./view":11}],2:[function(require,module,exports){
+"use strict";
+
+const controller = require("./controller");
+
+controller.loadPage();
+
+},{"./controller":1}],3:[function(require,module,exports){
+"use strict";
+
 const $ = require('jquery');
 const fbURL = "https://davidlarsketch-8da73.firebaseio.com";
 
-module.exports.fbDataProcessor = data => {
+const fbDataProcessor = data => {
   let dataToSend = [];
   let keys = Object.keys(data);
   keys.forEach(key => {
@@ -14,57 +46,29 @@ module.exports.fbDataProcessor = data => {
   return dataToSend;
 };
 
-module.exports.getBlog = () => {
+module.exports.getData = page => {
   return new Promise(function(resolve, reject) {
     $.ajax({
-      url: `${fbURL}/blog/entries.json`
+      url: `${fbURL}/${page}.json`
     })
-    .done(data => resolve(data))
+    .done(data => {
+      data = fbDataProcessor(data);
+      resolve(data);
+    })
     .fail(err => reject(err));
   });
 };
 
-module.exports.getContacts = () => {
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: `${fbURL}/contacts/items.json`
-    })
-    .done(data => resolve(data))
-    .fail(err => reject(err));
-  });
-};
-
-module.exports.getResume = () => {
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: `${fbURL}/resume/items.json`
-    })
-    .done(data => resolve(data))
-    .fail(err => reject(err));
-  });
-};
-
-module.exports.getProjects = () => {
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: `${fbURL}/projects.json`
-    })
-    .done(data => resolve(data))
-    .fail(err => reject(err));
-  });
-};
-
-},{"jquery":10}],2:[function(require,module,exports){
+},{"jquery":12}],4:[function(require,module,exports){
 "use strict";
 
 const $ = require('jquery');
-const storage = require("./storage");
-const ajax = require("./ajax");
 
-const $blogContainer = $("#blogContainer");
 let blogData;
 
 const makeBlog = data => {
+  blogData = data;
+
   const mainElm = document.createElement("main");
   const blogTitleElm = document.createElement("h1");
   blogTitleElm.append("Blog");
@@ -73,7 +77,7 @@ const makeBlog = data => {
   blogHolder.id = "blogHolder";
   blogHolder.className = "blog";
 
-  data.reverse().forEach(entry => blogHolder.append(makeBlogCard(entry)));
+  blogData.reverse().forEach(entry => blogHolder.append(makeBlogCard(entry)));
 
   mainElm.append(blogTitleElm);
   mainElm.append(blogHolder);
@@ -105,51 +109,17 @@ const makeBlogCard = obj => {
   return entryCardElm;
 };
 
-const blogger = () => {
-  // First prints from localStorage; then reprints from AJAX call
-  // Next step is to compare the two data sets for differences & only print
-  // those differences. Currently, if user is reading blog post then they lose
-  // their place.
-  blogData = storage.retrieve("blogData");
-  if (blogData) {
-    $blogContainer.append(makeBlog(blogData));
-  }
+module.exports = makeBlog;
 
-  ajax.getBlog()
-  .then(data => {
-    blogData = ajax.fbDataProcessor(data);
-    storage.save("blogData", blogData);
-    $blogContainer.empty();
-    $blogContainer.append(makeBlog(blogData));
-  })
-  .catch(err => console.log(err));
-};
-
-module.exports = blogger;
-
-},{"./ajax":1,"./storage":9,"jquery":10}],3:[function(require,module,exports){
+},{"jquery":12}],5:[function(require,module,exports){
 "use strict";
 
 const $ = require("jquery");
-const ajax = require("./ajax");
-const storage = require('./storage');
 
-const $contactsContainer = $('#contactsContainer');
 let contactsData = [];
 
 const makeContacts = data => {
-  // Experimental  -  loop through JSON data.structure to make the DOM elements
-  // instead of hard-coding each. This could be applied to each page of the site
-
-  // const test = (obj) => {
-  //   for (let prop in obj) {
-  //     console.log(obj[prop]);
-  //     for (let key in obj[prop]) {
-  //       console.log(obj[prop][key]);
-  //     }
-  //   }
-  // };
-  // test(structure);
+  contactsData = data;
 
   const mainElm = document.createElement("main");
   const contactTitleElm = document.createElement("h1");
@@ -159,7 +129,7 @@ const makeContacts = data => {
   contactHolder.id = "contactHolder";
   contactHolder.className = "contact";
 
-  data.forEach(entry => contactHolder.append(makeContactItem(entry)));
+  contactsData.forEach(entry => contactHolder.append(makeContactItem(entry)));
 
   mainElm.append(contactTitleElm);
   mainElm.append(contactHolder);
@@ -194,24 +164,9 @@ const makeContactItem = obj => {
   return contactDivElm;
 };
 
-const contacter = () => {
-  contactsData = storage.retrieve("contactsData");
-  if (contactsData) {
-    $contactsContainer.append(makeContacts(contactsData));
-  }
+module.exports = makeContacts;
 
-  ajax.getContacts()
-  .then(data => {
-    contactsData = ajax.fbDataProcessor(data);
-    storage.save("contactsData", contactsData);
-    $contactsContainer.empty().append(makeContacts(contactsData));
-  })
-  .catch(err => console.log(err));
-};
-
-module.exports = contacter;
-
-},{"./ajax":1,"./storage":9,"jquery":10}],4:[function(require,module,exports){
+},{"jquery":12}],6:[function(require,module,exports){
 "use strict";
 
 const $ = require('jquery');
@@ -225,7 +180,7 @@ const footer = () => {
 
 module.exports = footer;
 
-},{"jquery":10}],5:[function(require,module,exports){
+},{"jquery":12}],7:[function(require,module,exports){
 "use strict";
 
 const $ = require("jquery");
@@ -264,42 +219,16 @@ const makePageNav = item => {
 
 module.exports = header;
 
-},{"jquery":10}],6:[function(require,module,exports){
-"use strict";
-
-const footer = require("./footer");
-footer();
-const header = require("./header");
-header();
-
-const pages = {
-  blog: require("./blogger"),
-  contact: require("./contact"),
-  projects: require("./projects"),
-  resume: require("./resume")
-};
-
-const page = document.title.toLowerCase();
-const re = new RegExp(page);
-
-for (let key in pages) {
-  let result = re.test(key);
-  if (result) {
-    pages[key]();
-  }
-}
-
-},{"./blogger":2,"./contact":3,"./footer":4,"./header":5,"./projects":7,"./resume":8}],7:[function(require,module,exports){
+},{"jquery":12}],8:[function(require,module,exports){
 "use strict";
 
 const $ = require("jquery");
-const ajax = require("./ajax");
-const storage = require("./storage");
 
 let projectsData = {};
-const $projectsContainer = $("#projectsContainer");
 
 const makeProjects = data => {
+  projectsData = data;
+
   const mainElm = document.createElement("main");
   const projectsTitleElm = document.createElement("h1");
   mainElm.append(projectsTitleElm);
@@ -360,34 +289,18 @@ const makeProjectCard = obj => {
   return projectCardElm;
 };
 
-const projects = () => {
-  projectsData = storage.retrieve("projectsData");
+module.exports = makeProjects;
 
-  if(projectsData) $projectsContainer.append(makeProjects(projectsData));
-
-  ajax.getProjects()
-  .then(data => {
-    projectsData = ajax.fbDataProcessor(data);
-    storage.save("projectsData", projectsData);
-    $projectsContainer.empty();
-    $projectsContainer.append(makeProjects(projectsData));
-  })
-  .catch(err => console.log(err));
-};
-
-module.exports = projects;
-
-},{"./ajax":1,"./storage":9,"jquery":10}],8:[function(require,module,exports){
+},{"jquery":12}],9:[function(require,module,exports){
 "use strict";
 
 const $ = require('jquery');
-const ajax = require('./ajax');
-const storage = require('./storage');
 
-const $resumeContainer = $("#resumeContainer");
 let resumeData;
 
 const makeResume = data => {
+  resumeData = data;
+
   const mainElm = document.createElement("main");
   mainElm.className = "resume-content";
   const resumeTitle = document.createElement("h1");
@@ -409,7 +322,7 @@ const makeResume = data => {
   workHeading.append("Work Experience");
   workElm.append(workHeading);
 
-  data.forEach(obj => {
+  resumeData.forEach(obj => {
     let content = $.parseHTML(obj.content);
     let articleElm = document.createElement("article");
     articleElm.className = "resume-item";
@@ -430,25 +343,9 @@ const makeResume = data => {
   return mainElm;
 };
 
-const resume = () => {
-  resumeData = storage.retrieve("resumeData");
-  if (resumeData) {
-    $resumeContainer.append(makeResume(resumeData));
-  }
+module.exports = makeResume;
 
-  ajax.getResume()
-  .then(data => {
-    resumeData = ajax.fbDataProcessor(data);
-    storage.save("resumeData", resumeData);
-    $resumeContainer.empty();
-    $resumeContainer.append(makeResume(resumeData));
-  })
-  .catch(err => console.log(err));
-};
-
-module.exports = resume;
-
-},{"./ajax":1,"./storage":9,"jquery":10}],9:[function(require,module,exports){
+},{"jquery":12}],10:[function(require,module,exports){
 "use strict";
 
 module.exports.retrieve = key => {
@@ -466,7 +363,34 @@ module.exports.delete = key => {
   localStorage.removeItem(key);
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
+"use strict";
+
+const $ = require('jquery');
+const footer = require("./templates/footer");
+const header = require("./templates/header");
+
+const pages = {
+  blog: require("./templates/blog"),
+  contact: require("./templates/contact"),
+  projects: require("./templates/projects"),
+  resume: require("./templates/resume")
+};
+
+const printToAllPages = () => {
+  header();
+  footer();
+};
+
+const printThisPage = (page, data) => {
+  let $thisContainer = $(`#${page}Container`);
+  $thisContainer.empty();
+  $thisContainer.append(pages[page](data));
+};
+
+module.exports = {printThisPage, printToAllPages};
+
+},{"./templates/blog":4,"./templates/contact":5,"./templates/footer":6,"./templates/header":7,"./templates/projects":8,"./templates/resume":9,"jquery":12}],12:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.2.1
  * https://jquery.com/
@@ -10721,4 +10645,4 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}]},{},[6]);
+},{}]},{},[2]);
