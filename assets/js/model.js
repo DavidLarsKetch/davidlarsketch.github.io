@@ -13,15 +13,12 @@ const fbDataProcessor = data => {
   return dataToSend;
 };
 
-module.exports.getData = page => {
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: `${fbURL}/${page}.json`
-    })
+module.exports.getData = page =>
+  new Promise((resolve, reject) =>
+    $.ajax({ url: `${fbURL}/${page}.json` })
     .done(data => {
       data = fbDataProcessor(data);
       resolve(data);
     })
-    .fail(err => reject(err));
-  });
-};
+    .fail(err => reject(err))
+  );

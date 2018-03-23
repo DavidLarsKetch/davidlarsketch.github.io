@@ -1,21 +1,21 @@
 "use strict";
 
-const model = require("./model");
-const storage = require("./utils/storage");
-const view = require("./view");
+const { getData } = require("./model");
+const { retrieve, save } = require("./utils/storage");
+const { printToAllPages, printThisPage } = require("./view");
 
 let currentPage = document.title.toLowerCase();
 
 const loadPage = () => {
-  view.printToAllPages();
+  printToAllPages();
 
-  let localStorageData = storage.retrieve(`${currentPage}Data`);
-  if(localStorageData) view.printThisPage(currentPage, localStorageData);
+  let localStorageData = retrieve(`${currentPage}Data`);
+  if (localStorageData) printThisPage(currentPage, localStorageData);
 
-  model.getData(currentPage)
+  getData(currentPage)
   .then(data => {
-    view.printThisPage(currentPage, data);
-    storage.save(`${currentPage}Data`, data);
+    printThisPage(currentPage, data);
+    save(`${currentPage}Data`, data);
   })
   .catch(err => console.log(err));
 };

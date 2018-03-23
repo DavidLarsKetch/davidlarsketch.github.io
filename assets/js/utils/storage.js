@@ -11,6 +11,4 @@ module.exports.save = (key, value) => {
   localStorage.setItem(key, value);
 };
 
-module.exports.delete = key => {
-  localStorage.removeItem(key);
-};
+module.exports.delete = key => localStorage.removeItem(key);
