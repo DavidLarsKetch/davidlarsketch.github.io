@@ -8,12 +8,14 @@ const makeContacts = data => {
   contactsData = data;
 
   const mainElm = document.createElement("main");
+  mainElm.className = "contact";
+  
   const contactTitleElm = document.createElement("h1");
   contactTitleElm.append("Contact");
 
   const contactHolder = document.createElement("section");
   contactHolder.id = "contactHolder";
-  contactHolder.className = "contact";
+  contactHolder.className = "contact__container";
 
   contactsData.forEach(entry => contactHolder.append(makeContactItem(entry)));
 
@@ -25,19 +27,19 @@ const makeContacts = data => {
 
 const makeContactItem = obj => {
   const contactDivElm = document.createElement("div");
-  contactDivElm.className = `contact-item ${obj.title.toLowerCase()}`;
+  contactDivElm.className = `contact__item ${obj.title.toLowerCase()}`;
 
   const contactLinkElm = document.createElement("a");
-  contactLinkElm.className = "contact-link";
+  contactLinkElm.className = "contact__link";
   contactLinkElm.href = obj.address;
   contactLinkElm.target = "_blank";
 
   const contactSVGWrapper = document.createElement("div");
-  contactSVGWrapper.className = "contact-svg";
-  if (obj.name === "telegram") contactSVGWrapper.className += " telegram";
+  contactSVGWrapper.className = "contact__svg";
+  if (obj.name === "telegram") contactSVGWrapper.className += " contact__telegram";
 
   const contactTitle = document.createElement("h3");
-  contactTitle.className="contact-title";
+  contactTitle.className="contact__title";
   contactTitle.append(obj.title);
 
   let svgElms = $.parseHTML(obj.svg);
