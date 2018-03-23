@@ -1,22 +1,22 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
-const model = require("./model");
-const storage = require("./utils/storage");
-const view = require("./view");
+const { getData } = require("./model");
+const { retrieve, save } = require("./utils/storage");
+const { printToAllPages, printThisPage } = require("./view");
 
 let currentPage = document.title.toLowerCase();
 
 const loadPage = () => {
-  view.printToAllPages();
+  printToAllPages();
 
-  let localStorageData = storage.retrieve(`${currentPage}Data`);
-  if(localStorageData) view.printThisPage(currentPage, localStorageData);
+  let localStorageData = retrieve(`${currentPage}Data`);
+  if (localStorageData) printThisPage(currentPage, localStorageData);
 
-  model.getData(currentPage)
+  getData(currentPage)
   .then(data => {
-    view.printThisPage(currentPage, data);
-    storage.save(`${currentPage}Data`, data);
+    printThisPage(currentPage, data);
+    save(`${currentPage}Data`, data);
   })
   .catch(err => console.log(err));
 };
@@ -46,18 +46,15 @@ const fbDataProcessor = data => {
   return dataToSend;
 };
 
-module.exports.getData = page => {
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: `${fbURL}/${page}.json`
-    })
+module.exports.getData = page =>
+  new Promise((resolve, reject) =>
+    $.ajax({ url: `${fbURL}/${page}.json` })
     .done(data => {
       data = fbDataProcessor(data);
       resolve(data);
     })
-    .fail(err => reject(err));
-  });
-};
+    .fail(err => reject(err))
+  );
 
 },{"jquery":12}],4:[function(require,module,exports){
 "use strict";
@@ -174,7 +171,7 @@ const $ = require('jquery');
 const footer = () => {
   const divElm = document.createElement("div");
   divElm.className = "footer title";
-  divElm.append('\u00a9 2017 \u00a0-\u00a0 DLK');
+  divElm.append('\u00a9 2018 \u00a0-\u00a0 DLK');
   $("#footer").append(divElm);
 };
 
@@ -184,7 +181,7 @@ module.exports = footer;
 "use strict";
 
 const $ = require("jquery");
-const pages = ["Resume", "Projects", "Blog", "Contact"];
+const pages = ["Projects", "Contact"];
 
 const header = () => {
   const nav = document.createElement("nav");
@@ -359,9 +356,7 @@ module.exports.save = (key, value) => {
   localStorage.setItem(key, value);
 };
 
-module.exports.delete = key => {
-  localStorage.removeItem(key);
-};
+module.exports.delete = key => localStorage.removeItem(key);
 
 },{}],11:[function(require,module,exports){
 "use strict";
