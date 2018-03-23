@@ -1,7 +1,7 @@
 "use strict";
 
 const $ = require("jquery");
-const pages = ["Resume", "Projects", "Blog", "Contact"];
+const pages = ["Projects", "Contact"];
 
 const header = () => {
   const nav = document.createElement("nav");
