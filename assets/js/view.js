@@ -5,10 +5,9 @@ const footer = require("./templates/footer");
 const header = require("./templates/header");
 
 const pages = {
-  blog: require("./templates/blog"),
+  about: require("./templates/about"),
   contact: require("./templates/contact"),
-  projects: require("./templates/projects"),
-  resume: require("./templates/resume")
+  projects: require("./templates/projects")
 };
 
 const printToAllPages = () => {
