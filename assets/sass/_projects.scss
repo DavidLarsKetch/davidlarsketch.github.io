@@ -1,0 +1,45 @@
+.projects {
+  &__column {
+    display: grid;
+    grid: repeat(2, auto) / auto;
+    justify-content: center;
+  }
+
+  &__column h2 {
+    display: block;
+    text-align: center;
+  }
+  &__img {
+    background: rgb(211, 211, 211);
+    border: 1px solid;
+    max-height: 300px;
+    max-width: 90vw;
+  }
+
+  &__item {
+    align-items: center;
+    display: grid;
+    grid: 1fr auto / auto;
+    margin: $common-margin auto;
+    padding: 1rem 2rem;
+  }
+
+  &__title {
+    display: block;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  &__wrapper {
+    display: grid;
+    grid: auto / repeat(2, auto);
+    justify-content: space-around;
+  }
+
+  @media (max-aspect-ratio: 14/10) {
+    &__wrapper {
+      grid: repeat(2, auto) / auto;
+      justify-content: center;
+    }
+  }
+}
