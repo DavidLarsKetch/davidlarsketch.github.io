@@ -1,0 +1,60 @@
+@import "variables";
+@import "about";
+@import "contact";
+@import "footer";
+@import "header";
+@import "projects";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-image: $bg-img;
+  background-size: cover;
+  background-position: right;
+  font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+  outline: 0;
+  text-decoration: none;
+}
+
+a:active {
+  color: inherit;
+}
+
+a:visited {
+  color: inherit;
+}
+
+article p {
+  margin: 0 0 2vh 2vw;
+}
+
+h3 {
+  margin: $common-margin;
+}
+
+.container {
+  color: $color;
+  display: block;
+  margin: auto;
+  min-height: calc(100vh - 100px);
+  padding: 2vh 5vw;
+}
+
+@media (max-aspect-ratio: 14/10) {
+  html, body {
+    background-size: cover;
+  }
+
+  .container{
+    font-size: 1.5rem;
+    min-height: calc(100vh - 8.15rem);
+  }
+}

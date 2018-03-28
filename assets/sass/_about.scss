@@ -1,0 +1,23 @@
+.about {
+  align-items: end;
+  display: grid;
+  grid: auto / 2fr 1fr;
+
+  &__wrapper {
+    grid-column-start: 2;
+    p {
+      font-size: 1.25rem;
+      margin: 4vh;
+      text-shadow: black -2px 2px;
+    }
+  }
+
+  @media (max-aspect-ratio: 14/10) {
+    align-items: center;
+    grid: auto / auto;
+
+    &__wrapper p {
+
+    }
+  }
+}
