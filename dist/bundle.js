@@ -75,6 +75,7 @@ const makeIndex = ({0: {about} }) => {
   aboutElm.innerHTML = md.toHTML(indexData);
 
   mainElm.append(aboutElm);
+
   return mainElm;
 };
 
@@ -92,7 +93,7 @@ const makeContacts = data => {
 
   const mainElm = document.createElement("main");
   mainElm.className = "contact";
-  
+
   const contactTitleElm = document.createElement("h1");
   contactTitleElm.append("Contact");
 
@@ -121,7 +122,7 @@ const makeContactItem = obj => {
   contactSVGWrapper.className = "contact__svg";
   if (obj.name === "telegram") contactSVGWrapper.className += " contact__telegram";
 
-  const contactTitle = document.createElement("h3");
+  const contactTitle = document.createElement("span");
   contactTitle.className="contact__title";
   contactTitle.append(obj.title);
 
@@ -143,10 +144,7 @@ module.exports = makeContacts;
 const $ = require('jquery');
 
 const footer = () => {
-  const divElm = document.createElement("div");
-  divElm.className = "footer title";
-  divElm.append('\u00a9 2018 \u00a0-\u00a0 DLK');
-  $("#footer").append(divElm);
+  $("#footer").append('\u00a9 2018 \u00a0-\u00a0 David Lars Ketch');
 };
 
 module.exports = footer;
@@ -159,14 +157,17 @@ const pages = ["Projects", "Contact"];
 
 const header = () => {
   const nav = document.createElement("nav");
+  nav.className = "header__nav";
 
   const titleElm = document.createElement("span");
+  titleElm.className = "header__title";
+
   const titleLink = document.createElement("a");
-  titleLink.className = "header title";
   titleLink.href = document.title === "David Lars Ketch" ? "#top" : "index.html";
   titleLink.append("DLK");
 
   const navLinks = document.createElement("span");
+  navLinks.className = "header__nav-links";
   pages.forEach(page => navLinks.append(makePageNav(page)));
 
   $("#header").append(nav);
@@ -179,7 +180,7 @@ const makePageNav = item => {
   let spanElm = document.createElement("span");
   let linkElm = document.createElement("a");
 
-  spanElm.className = "nav-links";
+  // spanElm.className = "header__nav-links";
   linkElm.href = document.title === item ? "#top" : `${item.toLowerCase()}.html`;
 
   linkElm.append(item);
