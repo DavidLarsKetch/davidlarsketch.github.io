@@ -1,5 +1,10 @@
-footer {
+.footer {
   background: $base-color;
-  display: block;
+  bottom: -1px;
+  font-size: 1rem;
+  line-height: 3rem;
+  padding-left: 2vw;
+  position: sticky;
   width: 100%;
+  z-index: 99;
 }
