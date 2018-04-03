@@ -9,7 +9,7 @@ const makeContacts = data => {
 
   const mainElm = document.createElement("main");
   mainElm.className = "contact";
-  
+
   const contactTitleElm = document.createElement("h1");
   contactTitleElm.append("Contact");
 
@@ -38,7 +38,7 @@ const makeContactItem = obj => {
   contactSVGWrapper.className = "contact__svg";
   if (obj.name === "telegram") contactSVGWrapper.className += " contact__telegram";
 
-  const contactTitle = document.createElement("h3");
+  const contactTitle = document.createElement("span");
   contactTitle.className="contact__title";
   contactTitle.append(obj.title);
 
