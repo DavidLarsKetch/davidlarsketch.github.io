@@ -3,12 +3,19 @@
   display: grid;
   grid: auto / 2fr 1fr;
 
+  &__shadow {
+    display: none;
+  }
+
   &__wrapper {
     grid-column-start: 2;
+
     p {
       font-size: 1.25rem;
-      margin: 4vh;
-      text-shadow: black -2px 2px;
+      line-height: 2rem;
+      margin: 2vh 4vh 4vh 4vh;
+      text-align: justify;
+      text-shadow: $standard-shadow;
     }
   }
 
@@ -17,7 +24,8 @@
     grid: auto / auto;
 
     &__wrapper p {
-
+      font-size: 1rem;
+      line-height: 1.5rem;
     }
   }
 }
