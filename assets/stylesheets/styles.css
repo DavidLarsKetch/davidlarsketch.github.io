@@ -2,19 +2,26 @@
   align-items: end;
   display: grid;
   grid: auto / 2fr 1fr; }
+  .about__shadow {
+    display: none; }
   .about__wrapper {
     grid-column-start: 2; }
     .about__wrapper p {
       font-size: 1.25rem;
-      margin: 4vh;
-      text-shadow: black -2px 2px; }
+      line-height: 2rem;
+      margin: 2vh 4vh 4vh 4vh;
+      text-align: justify;
+      text-shadow: black 0 0 15px, black -1px 2px 0; }
   @media (max-aspect-ratio: 14 / 10) {
     .about {
       align-items: center;
-      grid: auto / auto; } }
+      grid: auto / auto; }
+      .about__wrapper p {
+        font-size: 1rem;
+        line-height: 1.5rem; } }
 
 .contact__item {
-  background: #e34234;
+  background: #ab1409;
   margin: 5vh 0;
   text-align: center;
   width: 30%; }
@@ -40,73 +47,81 @@
   padding-top: .5rem; }
 @media (max-aspect-ratio: 14 / 10) {
   .contact__item {
-    width: 70vw; }
+    margin: 5vh 2vw;
+    width: 96vw; }
   .contact__svg {
     height: 3.9rem;
     width: 3.9rem; } }
 
-footer {
-  background: #e34234;
-  display: block;
-  width: 100%; }
-
-header {
-  background: #e34234;
-  height: 50px; }
-
-nav {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between; }
+.footer {
+  background: #ab1409;
+  bottom: -1px;
+  font-size: 1rem;
+  line-height: 3rem;
+  padding-left: 2vw;
+  position: sticky;
+  width: 100%;
+  z-index: 99; }
 
 .header {
-  font-size: 2rem; }
-
-.title {
-  line-height: 50px;
-  padding-left: 2vw; }
-
-.nav-links {
-  font-size: 1.5rem;
-  line-height: 50px;
-  padding-right: 2vw; }
+  position: sticky;
+  top: 0;
+  z-index: 99; }
+  .header__nav {
+    align-content: space-between;
+    background: #ab1409;
+    display: grid;
+    grid: auto / auto 1fr; }
+  .header__nav-links {
+    align-content: center;
+    display: grid;
+    grid: auto / 1fr auto;
+    grid-gap: 0 4vw;
+    padding: 0 4vw;
+    text-align: right; }
+  .header__title {
+    font-size: 2rem;
+    padding-left: 2vw;
+    display: block;
+    margin: auto 0; }
 
 @media (max-aspect-ratio: 14 / 10) {
-  header {
-    height: 5rem; }
-
-  .title {
-    font-size: 3rem; } }
-.projects__column {
-  display: grid;
-  grid: repeat(2, auto)/auto;
-  justify-content: center; }
-.projects__column h2 {
-  display: block;
-  text-align: center; }
-.projects__img {
-  background: lightgray;
-  border: 1px solid;
-  max-height: 300px;
-  max-width: 90vw; }
-.projects__item {
-  align-items: center;
-  display: grid;
-  grid: 1fr auto / auto;
-  margin: 1vh auto;
-  padding: 1rem 2rem; }
-.projects__title {
-  display: block;
-  font-size: 1.25rem;
-  text-align: center; }
-.projects__wrapper {
-  display: grid;
-  grid: auto/repeat(2, auto);
-  justify-content: space-around; }
-@media (max-aspect-ratio: 14 / 10) {
-  .projects__wrapper {
+  .header__nav-links {
+    font-size: 1rem; } }
+.projects {
+  text-shadow: black 0 0 15px, black -1px 2px 0; }
+  .projects h1 {
+    text-shadow: black 1px 2px 3px; }
+  .projects__column {
+    display: grid;
     grid: repeat(2, auto)/auto;
-    justify-content: center; } }
+    justify-content: center; }
+  .projects__column h2 {
+    display: block;
+    text-align: center; }
+  .projects__img {
+    background: lightgray;
+    border: 1px solid;
+    max-height: 300px;
+    max-width: 90vw; }
+  .projects__item {
+    align-items: center;
+    display: grid;
+    grid: 1fr auto / auto;
+    margin: 1vh auto;
+    padding: 1rem 2rem; }
+  .projects__title {
+    display: block;
+    font-size: 1.25rem;
+    text-align: center; }
+  .projects__wrapper {
+    display: grid;
+    grid: auto/repeat(2, auto);
+    justify-content: space-around; }
+  @media (max-aspect-ratio: 14 / 10) {
+    .projects__wrapper {
+      grid: repeat(2, auto)/auto;
+      justify-content: center; } }
 
 * {
   box-sizing: border-box;
@@ -116,7 +131,8 @@ nav {
 html, body {
   background-image: url("../imgs/background.jpg");
   background-size: cover;
-  background-position: right;
+  background-position: center;
+  color: white;
   font-family: 'Noto Sans', Arial, sans-serif; }
 
 a {
@@ -130,25 +146,19 @@ a:active {
 a:visited {
   color: inherit; }
 
-article p {
-  margin: 0 0 2vh 2vw; }
-
-h3 {
-  margin: 1vh; }
-
 .container {
-  color: white;
   display: block;
   margin: auto;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 4rem);
   padding: 2vh 5vw; }
 
 @media (max-aspect-ratio: 14 / 10) {
   html, body {
-    background-size: cover; }
+    background-position: right; }
 
   .container {
-    font-size: 1.5rem;
-    min-height: calc(100vh - 8.15rem); } }
+    padding: 0; }
+    .container h1 {
+      margin: 0 5vw; } }
 
 /*# sourceMappingURL=styles.css.map */

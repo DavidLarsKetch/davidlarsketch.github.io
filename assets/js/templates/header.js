@@ -5,14 +5,17 @@ const pages = ["Projects", "Contact"];
 
 const header = () => {
   const nav = document.createElement("nav");
+  nav.className = "header__nav";
 
   const titleElm = document.createElement("span");
+  titleElm.className = "header__title";
+
   const titleLink = document.createElement("a");
-  titleLink.className = "header title";
   titleLink.href = document.title === "David Lars Ketch" ? "#top" : "index.html";
   titleLink.append("DLK");
 
   const navLinks = document.createElement("span");
+  navLinks.className = "header__nav-links";
   pages.forEach(page => navLinks.append(makePageNav(page)));
 
   $("#header").append(nav);
@@ -25,7 +28,7 @@ const makePageNav = item => {
   let spanElm = document.createElement("span");
   let linkElm = document.createElement("a");
 
-  spanElm.className = "nav-links";
+  // spanElm.className = "header__nav-links";
   linkElm.href = document.title === item ? "#top" : `${item.toLowerCase()}.html`;
 
   linkElm.append(item);

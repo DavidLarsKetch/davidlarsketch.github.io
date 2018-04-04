@@ -1,4 +1,10 @@
 .projects {
+  text-shadow: $standard-shadow;
+
+  h1 {
+    text-shadow: black 1px 2px 3px;
+  }
+
   &__column {
     display: grid;
     grid: repeat(2, auto) / auto;

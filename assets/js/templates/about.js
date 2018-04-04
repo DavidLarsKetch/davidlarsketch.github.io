@@ -16,6 +16,7 @@ const makeIndex = ({0: {about} }) => {
   aboutElm.innerHTML = md.toHTML(indexData);
 
   mainElm.append(aboutElm);
+
   return mainElm;
 };
 
