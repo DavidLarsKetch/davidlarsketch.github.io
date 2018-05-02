@@ -3,7 +3,6 @@
 const $ = require("jquery");
 const md = require('markdown').markdown;
 
-
 const makeProjects = data => {
   let projectsData = [{data: []}, {data: []}, {data: []}];
   const mainElm = document.createElement("main");
@@ -58,19 +57,19 @@ const makeProjects = data => {
   return mainElm;
 };
 
-const makeProjectCard = ({link, title, img, desc, tech}) => {
+const makeProjectCard = ({link, title, img, desc, tech = []}) => {
   const projectCardElm = document.createElement("section");
   projectCardElm.className = "projects__item";
+
+  const projectTitleElm = document.createElement("h2");
+  projectTitleElm.className = "projects__title";
+  projectCardElm.append(projectTitleElm);
+  projectTitleElm.append(title);
 
   const projectLinkElm = document.createElement("a");
   projectLinkElm.href = link;
   projectLinkElm.target = "_blank";
   projectCardElm.append(projectLinkElm);
-
-  const projectTitleElm = document.createElement("h3");
-  projectTitleElm.className = "projects__title";
-  projectCardElm.append(projectTitleElm);
-  projectTitleElm.append(title);
 
   const projectImageElm = document.createElement("img");
   projectImageElm.src = img;
@@ -108,10 +107,12 @@ const makeProjectColumn = name => {
   return [wrapper, items];
 };
 
-const makeIcon = ({img, link, name}) => {
+const makeIcon = ({img, link = "#", name}) => {
   const iconLink = document.createElement("a");
-  iconLink.href = link;
-  iconLink.target = "_blank";
+  if (link !== "#") {
+    iconLink.href = link;
+    iconLink.target = "_blank";
+  }
   iconLink.className = "projects__icon";
 
   const iconImg = document.createElement("img");
