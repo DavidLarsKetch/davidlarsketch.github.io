@@ -3,11 +3,9 @@
 const $ = require("jquery");
 const md = require('markdown').markdown;
 
-let projectsData = {};
 
 const makeProjects = data => {
-  projectsData = data;
-
+  let projectsData = [{data: []}, {data: []}, {data: []}];
   const mainElm = document.createElement("main");
   mainElm.className = "projects";
 
@@ -25,28 +23,37 @@ const makeProjects = data => {
     projectsCollabItemsElm
   ] = makeProjectColumn('Collab');
   projectsWrapper.append(projectsCollabWrapper);
+  projectsData[0].target = projectsCollabItemsElm;
 
   const [
     projectsSoloWrapper,
     projectsSoloItemsElm
   ] = makeProjectColumn('Solo');
   projectsWrapper.append(projectsSoloWrapper);
+  projectsData[1].target = projectsSoloItemsElm;
 
   const [
     projectsVolWrapper,
     projectsVolItemsElm
   ] = makeProjectColumn('Volunteer');
   projectsWrapper.append(projectsVolWrapper);
+  projectsData[2].target = projectsVolItemsElm;
 
-  data.forEach(project => {
+  data.map(project => {
     if (project.category === "collab") {
-      projectsCollabItemsElm.appendChild(makeProjectCard(project));
+      projectsData[0].data.push(project);
     } else if (project.category === "solo") {
-      projectsSoloItemsElm.appendChild(makeProjectCard(project));
+      projectsData[1].data.push(project);
     } else if (project.category === "volunteer") {
-      projectsVolItemsElm.appendChild(makeProjectCard(project));
+      projectsData[2].data.push(project);
     }
   });
+
+  projectsData.map(({data}) => data.sort((a,b) => a.date < b.date));
+
+  projectsData.map(({target, data}) => data.map(project =>
+    target.append(makeProjectCard(project))
+  ));
 
   return mainElm;
 };
