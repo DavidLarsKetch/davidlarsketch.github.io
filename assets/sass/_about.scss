@@ -2,6 +2,7 @@
   align-items: end;
   display: grid;
   grid: auto / 2fr 1fr;
+  margin-top: 23vh;
 
   &__shadow {
     display: none;
@@ -19,7 +20,7 @@
     }
   }
 
-  @media (max-aspect-ratio: 14/10) {
+  @media (max-aspect-ratio: 11/10) {
     align-items: center;
     grid: auto / auto;
 
