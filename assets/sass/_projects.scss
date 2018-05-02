@@ -25,6 +25,16 @@
     }
   }
 
+  &__icons {
+    margin: .5rem;
+  }
+
+  &__icon {
+    img {
+      margin: .3rem;
+    }
+  }
+
   &__img {
     background: rgb(211, 211, 211);
     border: 1px solid;
