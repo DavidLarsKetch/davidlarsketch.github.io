@@ -13,11 +13,30 @@ const fbDataProcessor = data => {
   return dataToSend;
 };
 
+const getTechData = data =>
+new Promise((resolve, reject) =>
+$.ajax({ url: `${fbURL}/tech.json` })
+.done(techData => {
+  techData = fbDataProcessor(techData);
+  data = data.map(project => {
+    project.tech = project.tech.map(item => {
+      return techData.find(element => element.name === item);
+    });
+    return project;
+  });
+  resolve(data);
+})
+);
+
 module.exports.getData = page =>
   new Promise((resolve, reject) =>
     $.ajax({ url: `${fbURL}/${page}.json` })
     .done(data => {
       data = fbDataProcessor(data);
+      if (page === "projects") {
+        return getTechData(data)
+          .then(data => resolve(data));
+      }
       resolve(data);
     })
     .fail(err => reject(err))
