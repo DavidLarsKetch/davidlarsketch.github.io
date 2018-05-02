@@ -58,7 +58,7 @@ const makeProjects = data => {
   return mainElm;
 };
 
-const makeProjectCard = ({link, title, img, desc}) => {
+const makeProjectCard = ({link, title, img, desc, tech}) => {
   const projectCardElm = document.createElement("section");
   projectCardElm.className = "projects__item";
 
@@ -67,7 +67,7 @@ const makeProjectCard = ({link, title, img, desc}) => {
   projectLinkElm.target = "_blank";
   projectCardElm.append(projectLinkElm);
 
-  const projectTitleElm = document.createElement("span");
+  const projectTitleElm = document.createElement("h3");
   projectTitleElm.className = "projects__title";
   projectCardElm.append(projectTitleElm);
   projectTitleElm.append(title);
@@ -76,6 +76,12 @@ const makeProjectCard = ({link, title, img, desc}) => {
   projectImageElm.src = img;
   projectImageElm.className = "projects__img";
   projectLinkElm.append(projectImageElm);
+
+  const projectIconsElm = document.createElement("div");
+  projectIconsElm.className = "projects__icons";
+  tech.forEach(item => projectIconsElm.append(makeIcon(item)));
+  projectCardElm.append(projectIconsElm);
+
 
   const projectDescElm = document.createElement("div");
   projectDescElm.className = "projects__description";
@@ -100,6 +106,21 @@ const makeProjectColumn = name => {
   wrapper.append(items);
 
   return [wrapper, items];
+};
+
+const makeIcon = ({img, link, name}) => {
+  const iconLink = document.createElement("a");
+  iconLink.href = link;
+  iconLink.target = "_blank";
+  iconLink.className = "projects__icon";
+
+  const iconImg = document.createElement("img");
+  iconImg.src = img;
+  iconImg.alt = name;
+
+  iconLink.append(iconImg);
+
+  return iconLink;
 };
 
 module.exports = makeProjects;
