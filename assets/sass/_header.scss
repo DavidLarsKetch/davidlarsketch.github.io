@@ -1,11 +1,12 @@
 .header {
+  color: black;
   position: sticky;
   top: 0;
   z-index: 99;
 
   &__nav {
     align-content: space-between;
-    background: $base-color;
+    background: $color;
     display: grid;
     grid: auto / auto 1fr;
   }

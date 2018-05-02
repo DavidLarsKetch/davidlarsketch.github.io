@@ -8,13 +8,14 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  padding: 0
 }
 
 html, body {
   background-image: $bg-img;
+  background-attachment: fixed;
   background-size: cover;
-  background-position: center;
+  background-position: right;
   color: $color;
   font-family: 'Noto Sans', Arial, sans-serif;
 }
@@ -33,6 +34,15 @@ a:visited {
   color: inherit;
 }
 
+p {
+  a {
+    background: $complement;
+    padding: 0 .33rem;
+    text-shadow: none;
+    font-style: italic;
+  }
+}
+
 .container {
   display: block;
   margin: auto;
@@ -41,15 +51,11 @@ a:visited {
 }
 
 @media (max-aspect-ratio: 14/10) {
-  html, body {
-    background-position: right;
-  }
-
   .container {
     padding: 0;
 
     h1 {
-      margin: 0 5vw;
+      margin: 0 0 2vh 5vw;
     }
   }
 }
