@@ -126,8 +126,7 @@
   grid: auto / auto;
   justify-content: center; }
 .projects__title {
-  display: block;
-  font-size: 1.25rem;
+  margin-top: 2vh;
   text-align: center; }
 .projects__wrapper {
   display: grid;
