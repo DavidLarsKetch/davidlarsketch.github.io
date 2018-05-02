@@ -53,7 +53,6 @@ const getTechData = data =>
 new Promise((resolve, reject) =>
 $.ajax({ url: `${fbURL}/tech.json` })
 .done(techData => {
-  console.log(techData);
   techData = fbDataProcessor(techData);
   data = data.map(project => {
     project.tech = project.tech.map(item => {
@@ -61,7 +60,6 @@ $.ajax({ url: `${fbURL}/tech.json` })
     });
     return project;
   });
-  console.log(data);
   resolve(data);
 })
 );
