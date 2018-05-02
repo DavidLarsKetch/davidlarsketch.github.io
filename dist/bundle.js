@@ -13,10 +13,13 @@ const loadPage = () => {
   let localStorageData = retrieve(`${currentPage}Data`);
   if (localStorageData) printThisPage(currentPage, localStorageData);
 
+// Gets Firebase data to update Local Storage & DOM, if necessary
   getData(currentPage)
   .then(data => {
-    printThisPage(currentPage, data);
-    save(`${currentPage}Data`, data);
+    if (localStorageData !== data) {
+      printThisPage(currentPage, data);
+      save(`${currentPage}Data`, data);
+    }
   })
   .catch(err => console.log(err));
 };
@@ -195,6 +198,7 @@ module.exports = header;
 "use strict";
 
 const $ = require("jquery");
+const md = require('markdown').markdown;
 
 let projectsData = {};
 
@@ -213,62 +217,84 @@ const makeProjects = data => {
   projectsWrapper.className = "projects__wrapper";
   mainElm.appendChild(projectsWrapper);
 
-  const projectsCollabWrapper = document.createElement("span");
-  projectsCollabWrapper.id = "projectsCollab";
-  projectsCollabWrapper.className = "projects__column";
+  const [
+    projectsCollabWrapper,
+    projectsCollabItemsElm
+  ] = makeProjectColumn('Collab');
   projectsWrapper.append(projectsCollabWrapper);
 
-  const projectsCollabTitleElm = document.createElement("h2");
-  
-  projectsCollabWrapper.append(projectsCollabTitleElm);
-  projectsCollabTitleElm.append("Collaborative");
-
-  const projectsSoloWrapper = document.createElement("span");
-  projectsSoloWrapper.id = "projectsSolo";
-  projectsSoloWrapper.className = "projects__column";
+  const [
+    projectsSoloWrapper,
+    projectsSoloItemsElm
+  ] = makeProjectColumn('Solo');
   projectsWrapper.append(projectsSoloWrapper);
 
-  const projectsSoloTitleElm = document.createElement("h2");
-
-  projectsSoloWrapper.append(projectsSoloTitleElm);
-  projectsSoloTitleElm.append("Solo");
+  const [
+    projectsVolWrapper,
+    projectsVolItemsElm
+  ] = makeProjectColumn('Volunteer');
+  projectsWrapper.append(projectsVolWrapper);
 
   data.forEach(project => {
     if (project.category === "collab") {
-      projectsCollabWrapper.appendChild(makeProjectCard(project));
+      projectsCollabItemsElm.appendChild(makeProjectCard(project));
     } else if (project.category === "solo") {
-      projectsSoloWrapper.appendChild(makeProjectCard(project));
+      projectsSoloItemsElm.appendChild(makeProjectCard(project));
+    } else if (project.category === "volunteer") {
+      projectsVolItemsElm.appendChild(makeProjectCard(project));
     }
   });
 
   return mainElm;
 };
 
-const makeProjectCard = obj => {
+const makeProjectCard = ({link, title, img, desc}) => {
   const projectCardElm = document.createElement("section");
   projectCardElm.className = "projects__item";
 
   const projectLinkElm = document.createElement("a");
-  projectLinkElm.href = obj.link;
+  projectLinkElm.href = link;
   projectLinkElm.target = "_blank";
   projectCardElm.append(projectLinkElm);
 
   const projectTitleElm = document.createElement("span");
   projectTitleElm.className = "projects__title";
   projectCardElm.append(projectTitleElm);
-  projectTitleElm.append(obj.title);
+  projectTitleElm.append(title);
 
-  const projectContentElm = document.createElement("img");
-  projectContentElm.src = obj.img;
-  projectContentElm.className = "projects__img";
-  projectLinkElm.append(projectContentElm);
+  const projectImageElm = document.createElement("img");
+  projectImageElm.src = img;
+  projectImageElm.className = "projects__img";
+  projectLinkElm.append(projectImageElm);
+
+  const projectDescElm = document.createElement("div");
+  projectDescElm.className = "projects__description";
+  projectDescElm.innerHTML = md.toHTML(desc || '');
+  projectCardElm.append(projectDescElm);
 
   return projectCardElm;
 };
 
+const makeProjectColumn = name => {
+  let wrapper = document.createElement('span');
+  wrapper.id = `projects${name}`;
+  wrapper.className = "projects__column";
+
+  let title = document.createElement('h2');
+  title.append(name);
+
+  let items = document.createElement('div');
+  items.className = "projects__items";
+
+  wrapper.append(title);
+  wrapper.append(items);
+
+  return [wrapper, items];
+};
+
 module.exports = makeProjects;
 
-},{"jquery":11}],9:[function(require,module,exports){
+},{"jquery":11,"markdown":12}],9:[function(require,module,exports){
 "use strict";
 
 module.exports.retrieve = key => {
