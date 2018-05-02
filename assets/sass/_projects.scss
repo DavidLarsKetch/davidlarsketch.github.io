@@ -1,6 +1,4 @@
 .projects {
-  text-shadow: $standard-shadow;
-
   h1 {
     text-shadow: black 1px 2px 3px;
   }
@@ -14,6 +12,7 @@
   &__column h2 {
     display: block;
     text-align: center;
+    text-shadow: $standard-shadow;
   }
 
   &__description {
@@ -22,6 +21,7 @@
 
     p {
       margin-bottom: 2vh;
+      text-shadow: black -1px 2px 5px;
     }
   }
 
@@ -70,7 +70,7 @@
     }
 
     &__img {
-      max-width: 90vw;
+      max-width: 85vw;
     }
 
     &__item {
